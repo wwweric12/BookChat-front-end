@@ -1,0 +1,54 @@
+{
+    "env": {
+      "browser": true, 
+      "es6": true,
+      "node": true 
+    },
+    "extends": ["airbnb", "plugin:prettier/recommended", "plugin:import/errors"], 
+    "parserOptions": {
+      "ecmaFeatures": { 
+        "jsx": true 
+      },
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "plugins": ["react", "prettier","import"],
+    "rules": {
+      "react/react-in-jsx-scope": 0, 
+      "react/jsx-filename-extension": 0,
+      "react/jsx-one-expression-per-line": 0,
+      "no-nested-ternary": 0, 
+      "import/order": [
+        "error",
+        {
+          "groups": ["builtin", "external", "internal", "parent", "sibling", "index", ["object", "type"]], 
+          "pathGroups": [  
+            {
+              "pattern": "@/**",
+              "group": "external",
+              "position": "after"
+            },
+            {
+              "pattern": "react",
+              "group": "builtin",
+              "position": "before"
+            }
+          ],
+          "pathGroupsExcludedImportTypes": ["react"],
+          "newlines-between": "always", 
+          "alphabetize": { 
+            "order": "asc", 
+            "caseInsensitive": true
+          }
+        }
+      ],
+  
+      "import/no-extraneous-dependencies": [ 
+        "error",
+        {
+          "devDependencies": true 
+        }
+      ],
+      "import/no-unresolved": "off" 
+    }
+  }
