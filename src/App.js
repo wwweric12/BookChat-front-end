@@ -1,7 +1,13 @@
-import './App.css';
+import { ThemeProvider } from 'styled-components';
 
-function App() {
-  return <div></div>;
-}
+import { Theme } from './styles/Theme';
+
+const App = () => {
+  return (
+    <>
+      <ThemeProvider theme={Theme}></ThemeProvider>
+    </>
+  );
+};
 
 export default App;
