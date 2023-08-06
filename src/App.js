@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 
 import Header from './assets/component/Header.jsx';
 import Login from './assets/pages/Login/Login.jsx';
+import Signup from './assets/pages/Signup/Signup.jsx';
 import { Theme } from './styles/Theme';
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </ThemeProvider>
