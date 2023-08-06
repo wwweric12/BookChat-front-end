@@ -1,13 +1,14 @@
 import { styled } from 'styled-components';
 
-export const Input = ({ placeholder, tyep, register, inputId, title }) => {
+const Input = ({ placeholder, type, register, inputId, title }) => {
   return (
     <InputContainer>
       <InputTitle>{title}</InputTitle>
-      <InputContent placeholder={placeholder} /*type={type} {...register(inputId)} id={inputId}*/ />
+      <InputContent placeholder={placeholder} type={type} {...register(inputId)} id={inputId} />
     </InputContainer>
   );
 };
+export default Input;
 
 const InputContainer = styled.div`
   width: 540px;
@@ -20,6 +21,7 @@ const InputTitle = styled.div`
   font-size: 25px;
   display: flex;
   align-items: center;
+  color: ${({ theme }) => theme.colors.BROWN100};
 `;
 
 const InputContent = styled.input`
