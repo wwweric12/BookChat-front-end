@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import Header from './assets/component/Header.jsx';
+import Chatting from './assets/pages/Chatting/Chatting.jsx';
 import Login from './assets/pages/Login/Login.jsx';
 import Signup from './assets/pages/Signup/Signup.jsx';
 import { Theme } from './styles/Theme';
@@ -14,6 +15,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/chatting" element={<Chatting />} />
         </Routes>
       </Router>
     </ThemeProvider>
