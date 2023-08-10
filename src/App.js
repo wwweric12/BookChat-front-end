@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 
 import BoardList from './assets/component/BoardList.jsx';
 import Header from './assets/component/Header.jsx';
+import ChatModal from './assets/component/Modal/ChatModal.jsx';
 import Chatting from './assets/pages/Chatting/Chatting.jsx';
 import Login from './assets/pages/Login/Login.jsx';
 import CreatePost from './assets/pages/Post/CreatePost.jsx';
