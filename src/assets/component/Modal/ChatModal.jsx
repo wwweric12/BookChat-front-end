@@ -1,13 +1,10 @@
 import { styled } from 'styled-components';
 
-import Button from '../../images/ExitButton.svg';
-
 const ChatModal = ({ userId }) => {
   return (
     <Layout>
       <HeaderBox>
         <HeaderText>{`${userId}'s chat-list`}</HeaderText>
-        <ExitButton src={Button} alt="X 버튼" />
       </HeaderBox>
       <Content></Content>
     </Layout>
@@ -20,7 +17,7 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   width: 500px;
-  height: 763px;
+  height: 563px;
   background-color: ${({ theme }) => theme.colors.WHITE};
   border: 3px solid ${({ theme }) => theme.colors.BROWN100};
   border-radius: 20px 20px 0 20px;

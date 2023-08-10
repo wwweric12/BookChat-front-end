@@ -8,8 +8,6 @@ import SearchIcon from '../images/Search.svg';
 import Select from './Select.jsx';
 
 const SearchBar = ({ onSearch }) => {
-  const navigate = useNavigate();
-
   const [searchKeyWord, setSearchKeyWord] = useState('');
 
   const onChangeHandler = (event) => {
@@ -27,7 +25,7 @@ const SearchBar = ({ onSearch }) => {
     <SearchInputBox onSubmit={handleSearch}>
       <Select />
       <SearchInput placeholder="검색어를 입력하세요." value={searchKeyWord} onChange={onChangeHandler} />
-      <SelectImg src={SearchIcon} alt="돋보기 이미지" onClick={() => navigate(`/${searchKeyWord}`)} />
+      <SelectImg src={SearchIcon} alt="돋보기 이미지" onClick={handleSearch} />
     </SearchInputBox>
   );
 };
