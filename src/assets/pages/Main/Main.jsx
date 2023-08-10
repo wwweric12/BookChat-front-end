@@ -1,12 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import SearchBar from '../../component/SearchBar.jsx';
 import Chat from '../../images/Chatlist.svg';
 
 const Main = () => {
+  const navigate = useNavigate();
+  const handleSearch = (searchKeyWord) => {
+    navigate(`/search?q=${encodeURIComponent(searchKeyWord)}`);
+  };
+
   return (
     <Container>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
       <ChattingImg src={Chat} alt="채팅 이미지" />
     </Container>
   );

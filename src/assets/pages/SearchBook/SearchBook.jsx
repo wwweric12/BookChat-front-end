@@ -1,3 +1,4 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import BookList from '../../component/BookList.jsx';
@@ -23,12 +24,22 @@ const BOOK_DATA = [
 ];
 
 const SearchBook = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchQuery = queryParams.get('q') || '';
+
+  const navigate = useNavigate();
+
+  const handleSearch = (searchKeyWord) => {
+    navigate(`/search?q=${encodeURIComponent(searchKeyWord)}`);
+  };
+
   return (
     <Container>
-      <SearchBar />
+      <SearchBar onSearch={(searchKeyWord) => navigate(`/search?q=${encodeURIComponent(searchKeyWord)}`)} />
       <>
         <ResultTextBox>
-          <ResultName>'김정호'</ResultName>
+          <ResultName>{`'${searchQuery}'`}</ResultName>
           <ResultText>에 대한 3개의 검색 결과</ResultText>
         </ResultTextBox>
         <ResultBookList>

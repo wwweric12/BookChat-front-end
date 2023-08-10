@@ -32,6 +32,10 @@ const Container = styled.div`
 const LogoImg = styled.img`
   width: 190px;
   height: 50px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Exit = styled.img`
