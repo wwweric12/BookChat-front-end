@@ -26,7 +26,7 @@ const SearchBook = () => {
   return (
     <Container>
       <SearchBar />
-      <ResultContainer>
+      <>
         <ResultTextBox>
           <ResultName>'김정호'</ResultName>
           <ResultText>에 대한 3개의 검색 결과</ResultText>
@@ -36,7 +36,7 @@ const SearchBook = () => {
             <BookList data={item} key={index} />
           ))}
         </ResultBookList>
-      </ResultContainer>
+      </>
     </Container>
   );
 };
@@ -50,8 +50,6 @@ const Container = styled.div`
   align-items: center;
   margin-top: 47px;
 `;
-
-const ResultContainer = styled.div``;
 
 const ResultTextBox = styled.div`
   display: flex;

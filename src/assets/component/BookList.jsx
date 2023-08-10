@@ -1,5 +1,22 @@
 import { styled } from 'styled-components';
 
+import Arrow from '../images/RightArrow.svg';
+
+import GoChatGoBoard from './GoChatGoBoard.jsx';
+
+const MOVE_DATA = [
+  {
+    text: 'Go Chat',
+    img: Arrow,
+    move: 'chat',
+  },
+  {
+    text: 'Go Board',
+    img: Arrow,
+    move: 'board',
+  },
+];
+
 const BookList = ({ data }) => {
   const { img, title, author } = data;
 
@@ -10,6 +27,11 @@ const BookList = ({ data }) => {
         <BookTitle>{title}</BookTitle>
         <BookAuthor>{author}</BookAuthor>
       </BookDetailBox>
+      <GoBox>
+        {MOVE_DATA.map((item) => (
+          <GoChatGoBoard data={item} />
+        ))}
+      </GoBox>
     </Container>
   );
 };
@@ -47,4 +69,12 @@ const BookAuthor = styled.p`
   color: ${({ theme }) => theme.colors.GRAY2};
   height: 90px;
   line-height: 90px;
+`;
+
+const GoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 210px;
+  height: 180px;
+  margin-right: 30px;
 `;
