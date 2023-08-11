@@ -34,31 +34,33 @@ export default SearchBar;
 
 const SearchInputBox = styled.form`
   display: flex;
+  justify-content: center;
   align-items: center;
-  width: 998px;
-  height: 140px;
+  width: 700px;
+  height: 100px;
   border: 3px solid ${({ theme }) => theme.colors.MINT100};
   border-radius: 80px;
 `;
 
 const SearchInput = styled.input`
   display: flex;
-  width: 660px;
-  height: 80px;
-  font-size: 35px;
+  width: 450px;
+  height: 40px;
+  align-items: center;
+  font-size: 20px;
   padding: 10px 20px;
   border: none;
   border-left: 1px solid ${({ theme }) => theme.colors.GRAY};
-  margin-right: 70px;
+  margin-right: 40px;
 
   &::placeholder {
-    font-size: 35px;
+    font-size: 20px;
   }
 `;
 
 const SelectImg = styled.img`
-  width: 63px;
-  height: 63px;
+  width: 40px;
+  height: 40px;
 
   &:hover {
     cursor: pointer;

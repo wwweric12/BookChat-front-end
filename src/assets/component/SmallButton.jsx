@@ -8,10 +8,10 @@ const SmallButton = ({ text }) => {
 export default SmallButton;
 
 const Button = styled.button`
-  width: 144px;
-  height: 58px;
+  width: 100px;
+  height: 35px;
   background-color: ${({ theme }) => theme.colors.MINT100};
   color: ${({ theme }) => theme.colors.WHITE};
-  font-size: 25px;
-  border-radius: 20px;
+  font-size: 15px;
+  border-radius: 15px;
 `;

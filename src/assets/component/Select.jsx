@@ -35,8 +35,8 @@ const Select = () => {
 export default Select;
 
 const Container = styled.div`
-  width: 130px;
-  height: 80px;
+  width: 100px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,12 +45,9 @@ const Container = styled.div`
 const SelectBox = styled.select`
   display: flex;
   text-align: center;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
   color: ${({ theme }) => theme.colors.BLACK};
   border: none;
-  font-size: 35px;
+  font-size: 20px;
   &:hover {
     cursor: pointer;
   }

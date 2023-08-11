@@ -13,12 +13,12 @@ const MOVE_DATA = [
   {
     text: 'Go Board',
     img: Arrow,
-    move: 'board',
+    move: 'boardlist',
   },
 ];
 
 const BookList = ({ data }) => {
-  const { img, title, author } = data;
+  const { img, title, author, isSearch } = data;
 
   return (
     <Container>
@@ -27,11 +27,13 @@ const BookList = ({ data }) => {
         <BookTitle>{title}</BookTitle>
         <BookAuthor>{author}</BookAuthor>
       </BookDetailBox>
-      <GoBox>
-        {MOVE_DATA.map((item) => (
-          <GoChatGoBoard data={item} />
-        ))}
-      </GoBox>
+      {isSearch ?? (
+        <GoBox>
+          {MOVE_DATA.map((item) => (
+            <GoChatGoBoard data={item} />
+          ))}
+        </GoBox>
+      )}
     </Container>
   );
 };
@@ -40,35 +42,35 @@ export default BookList;
 
 const Container = styled.div`
   display: flex;
-  width: 1148px;
-  height: 220px;
+  width: 900px;
+  height: 160px;
   justify-content: center;
   align-items: center;
   border-top: 1px solid ${({ theme }) => theme.colors.BLACK};
 `;
 
 const BookImg = styled.img`
-  width: 150px;
-  height: 180px;
+  width: 130px;
+  height: 130px;
 `;
 
 const BookDetailBox = styled.div`
   margin-left: 34px;
   width: 914px;
-  height: 180px;
+  height: 160px;
 `;
 
 const BookTitle = styled.p`
-  font-size: 35px;
-  height: 90px;
-  line-height: 90px;
+  font-size: 25px;
+  height: 60px;
+  line-height: 60px;
 `;
 
 const BookAuthor = styled.p`
-  font-size: 25px;
+  font-size: 15px;
   color: ${({ theme }) => theme.colors.GRAY2};
-  height: 90px;
-  line-height: 90px;
+  height: 60px;
+  line-height: 60px;
 `;
 
 const GoBox = styled.div`

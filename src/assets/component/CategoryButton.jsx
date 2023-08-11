@@ -11,11 +11,11 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 160px;
-  height: 70px;
-  font-size: 30px;
+  width: 90px;
+  height: 40px;
+  font-size: 15px;
   background-color: ${({ theme }) => theme.colors.WHITE};
-  border-radius: 20px;
+  border-radius: 15px;
 
   &:hover,
   &:focus {
