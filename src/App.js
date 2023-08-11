@@ -21,10 +21,10 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Main />} />
-          <Route path="/chat" element={<Chatting />} />
+          <Route path="/chat/:id" element={<Chatting />} />
           <Route path="/search" element={<SearchBook />} />
           <Route path="/createpost" element={<CreatePost />} />
-          <Route path="/boardlist" element={<BoardList />} />
+          <Route path="/boardlist/:id" element={<BoardList />} />
           {/* <Route path="/boardlist/:id" element={<Board />} /> */}
         </Routes>
       </Router>
