@@ -1,15 +1,15 @@
 import { styled } from 'styled-components';
 
 import User from '../images/User.svg';
-export const Writer = ({ isBoard }) => {
+export const Writer = ({ isBoard, author, view, date }) => {
   return (
     <WriterContaienr>
       <img src={User} alt="user-icon" />
       <WriterContent>
-        <WriterAuthor>내이름규혁</WriterAuthor>
+        <WriterAuthor>{author}</WriterAuthor>
         <WriterDetail>
-          {isBoard ?? <ViewCount>조회수</ViewCount>}
-          <WriterDate>날짜</WriterDate>
+          {isBoard ?? <ViewCount>{view}</ViewCount>}
+          <WriterDate>{date}</WriterDate>
         </WriterDetail>
       </WriterContent>
     </WriterContaienr>
