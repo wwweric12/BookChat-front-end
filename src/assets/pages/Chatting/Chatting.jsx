@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { styled } from 'styled-components';
 
+import ChatParticipant from '../../component/ChatParticipant.jsx';
 import Search from '../../images/Search.svg';
 import Send from '../../images/Send.svg';
 import User from '../../images/User.svg';
@@ -56,8 +57,10 @@ const Chatting = ({ title, author }) => {
           <SearchImg src={Search} />
           <SearchInput placeholder="검색" />
         </SearchContainer>
-        {/* <Participant />
-        <Participant /> */}
+        <ContentBox>
+          <ChatParticipant>현재 참여자</ChatParticipant>
+          <ChatParticipant>참여했던 사람</ChatParticipant>
+        </ContentBox>
       </ParticipantContainer>
     </Container>
   );
@@ -172,7 +175,7 @@ const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75px;
+  height: 64px;
   border: none;
   padding: 0 10px;
 `;
@@ -186,4 +189,10 @@ const SearchInput = styled.input`
   width: 100%;
   border: none;
   padding: 0 10px;
+`;
+
+const ContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 `;
