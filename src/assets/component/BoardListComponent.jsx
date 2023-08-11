@@ -5,7 +5,8 @@ import Eye from '../images/Eye.svg';
 
 import BoardCategory from './BoardCategory.jsx';
 
-const BoardList = ({ author, date, title, view, comment, category }) => {
+const BoardListComponent = ({ data }) => {
+  const { author, date, title, view, comment, category } = data;
   return (
     <Container>
       <BoardListContainer>
@@ -32,20 +33,19 @@ const BoardList = ({ author, date, title, view, comment, category }) => {
   );
 };
 
-export default BoardList;
+export default BoardListComponent;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
 `;
 const BoardListContainer = styled.div`
-  width: 800px;
-  height: 150px;
-  padding: 10px 20px;
-  border: 1px solid ${({ theme }) => theme.colors.BLACK};
+  width: 900px;
+  height: 120px;
+  padding: 5px 20px;
+  border-top: 1px solid ${({ theme }) => theme.colors.BLACK};
 `;
 
 const BoardListHeader = styled.div`
@@ -55,18 +55,17 @@ const BoardListHeader = styled.div`
 `;
 
 const BoardListAuthor = styled.div`
-  font-size: 20px;
-  padding: 20px;
+  font-size: 15px;
+  padding: 10px;
 `;
 
 const BoardListDate = styled.div`
-  font-size: 15px;
+  font-size: 10px;
   color: ${({ theme }) => theme.colors.GRAY};
 `;
 
 const BoardListTitle = styled.div`
-  font-size: 30px;
-  margin-top: 5px;
+  font-size: 20px;
 `;
 
 const BoardDetailContainer = styled.div`

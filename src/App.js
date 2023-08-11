@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import Header from './assets/component/Header.jsx';
+import BoardList from './assets/pages/Board/BoardList.jsx';
 import Chatting from './assets/pages/Chatting/Chatting.jsx';
 import Login from './assets/pages/Login/Login.jsx';
 import Main from './assets/pages/Main/Main.jsx';
@@ -23,6 +24,8 @@ const App = () => {
           <Route path="/chat" element={<Chatting />} />
           <Route path="/search" element={<SearchBook />} />
           <Route path="/createpost" element={<CreatePost />} />
+          <Route path="/boardlist" element={<BoardList />} />
+          {/* <Route path="/boardlist/:id" element={<Board />} /> */}
         </Routes>
       </Router>
     </ThemeProvider>
