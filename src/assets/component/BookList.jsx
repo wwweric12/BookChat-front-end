@@ -1,25 +1,21 @@
 import { styled } from 'styled-components';
 
-import Arrow from '../images/RightArrow.svg';
-
 import GoChatGoBoard from './GoChatGoBoard.jsx';
-
-const MOVE_DATA = [
-  {
-    text: 'Go Chat',
-    img: Arrow,
-    move: 'chat',
-  },
-  {
-    text: 'Go Board',
-    img: Arrow,
-    move: 'boardlist',
-  },
-];
 
 const BookList = ({ data }) => {
   const { img, title, author, isSearch } = data;
-
+  const MOVE_DATA = [
+    {
+      title,
+      text: 'Go Chat',
+      move: 'chat',
+    },
+    {
+      title,
+      text: 'Go Board',
+      move: 'boardlist',
+    },
+  ];
   return (
     <Container>
       <BookImg src={img} alt="책 이미지" />
