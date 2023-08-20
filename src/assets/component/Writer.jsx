@@ -8,7 +8,7 @@ export const Writer = ({ isBoard, author, view, date }) => {
       <WriterContent>
         <WriterAuthor>{author}</WriterAuthor>
         <WriterDetail>
-          {isBoard ?? <ViewCount>{view}</ViewCount>}
+          {isBoard && <ViewCount>{view}</ViewCount>}
           <WriterDate>{date}</WriterDate>
         </WriterDetail>
       </WriterContent>
