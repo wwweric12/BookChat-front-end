@@ -1,6 +1,11 @@
+import { useState, useEffect } from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
+import { AxiosSearchBook } from '../../../api/AxiosSearchBook.js';
+import { BookAtom } from '../../component/atom/BookAtom.jsx';
 import BookList from '../../component/BookList.jsx';
 import SearchBar from '../../component/SearchBar.jsx';
 import Jungho from '../../images/Jungho.svg';
@@ -27,6 +32,25 @@ const BOOK_DATA = [
 ];
 
 const SearchBook = () => {
+  const [bookList, setBookList] = useState([]);
+
+  const [option, setOption] = useRecoilState(BookAtom);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      await AxiosSearchBook(searchQuery, option, (res) => setBookList(res));
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('q') || '';
@@ -34,7 +58,7 @@ const SearchBook = () => {
   const navigate = useNavigate();
 
   const handleSearch = (searchKeyWord) => {
-    navigate(`/search?q=${encodeURIComponent(searchKeyWord)}`);
+    navigate(`/books?q=${encodeURIComponent(searchKeyWord)}`);
   };
 
   return (
@@ -45,7 +69,7 @@ const SearchBook = () => {
         <ResultText>에 대한 3개의 검색 결과</ResultText>
       </ResultTextBox>
       <ResultBookList>
-        {BOOK_DATA.map((item, index) => (
+        {bookList.map((item, index) => (
           <BookList data={item} key={index} />
         ))}
       </ResultBookList>

@@ -14,7 +14,7 @@ const Main = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleSearch = (searchKeyWord) => {
-    navigate(`/search?q=${encodeURIComponent(searchKeyWord)}`);
+    navigate(`/books?q=${encodeURIComponent(searchKeyWord)}`);
   };
 
   const handleModal = () => {
