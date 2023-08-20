@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 
+import Comment from '../../component/Comment.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import { Writer } from '../../component/Writer.jsx';
 const Post = () => {
@@ -11,13 +12,20 @@ const Post = () => {
           <Title>혹시 제가 예민한건가요?</Title>
           <ContentBox>
             <Content>니얼굴이요</Content>
-            <ButtonArea>
+            <DeleteButtonArea>
               <SmallButton text="삭제하기" />
-            </ButtonArea>
+            </DeleteButtonArea>
           </ContentBox>
         </TextContainer>
         <CommentContainer>
           <CountComment>20개의 댓글</CountComment>
+          <CreateCommentContainer>
+            <CreateComment placeholder="댓글을 작성하세요"></CreateComment>
+            <CreateButtonArea>
+              <SmallButton text="작성하기" />
+            </CreateButtonArea>
+          </CreateCommentContainer>
+          <Comment comment="님이 예민한거임 ㅋㅋ 뭐노?"></Comment>
         </CommentContainer>
       </Container>
     </BackGround>
@@ -61,7 +69,7 @@ const Content = styled.div`
   height: 460px;
 `;
 
-const ButtonArea = styled.div`
+const DeleteButtonArea = styled.div`
   display: flex;
   width: 900px;
   height: 82px;
@@ -72,8 +80,9 @@ const ButtonArea = styled.div`
 
 const CommentContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 900px;
   margin-top: 40px;
+  flex-direction: column;
 `;
 
 const CountComment = styled.p`
@@ -81,4 +90,29 @@ const CountComment = styled.p`
   display: flex;
   justify-content: flex-start;
   font-size: 25px;
+`;
+
+const CreateCommentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+  border-radius: 20px;
+  border: 2px solid ${({ theme }) => theme.colors.BLACK};
+  padding: 20px;
+`;
+
+const CreateComment = styled.textarea`
+  width: 700px;
+  height: 110px;
+  border: 1px solid ${({ theme }) => theme.colors.GRAY};
+  border-radius: 20px;
+  resize: none;
+  padding: 10px;
+`;
+
+const CreateButtonArea = styled.div`
+  align-self: flex-end;
+  margin-left: 32px;
 `;
