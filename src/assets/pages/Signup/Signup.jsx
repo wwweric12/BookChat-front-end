@@ -1,13 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
+import { AxiosSignup } from '../../../api/AxiosSignup.js';
 import Input from '../../component/Input.jsx';
 import LargeButton from '../../component/LargeButton.jsx';
 
 import { validation } from './Validation.jsx';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,8 +21,13 @@ const Signup = () => {
     reValidateMode: 'onSubmit',
   });
 
+  const callbackFunction = (data) => {
+    alert(`${data.data.message}`);
+    navigate('/login');
+  };
+
   const onSubmit = (data) => {
-    console.log(data);
+    AxiosSignup(data, callbackFunction);
   };
 
   return (
@@ -27,8 +35,8 @@ const Signup = () => {
       <SignupTitle>회원가입</SignupTitle>
       <SignupForm onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>
-          <Input title="아이디" placeholder="아이디를 입력해주세요" type="id" register={register} inputId="id" />
-          {errors.id && <SignupError>{errors.id.message}</SignupError>}
+          <Input title="닉네임" placeholder="닉네임을 입력해주세요" register={register} inputId="userName" />
+          {errors.userName && <SignupError>{errors.userName.message}</SignupError>}
           <Input
             title="비밀번호"
             placeholder="비밀번호를 입력해주세요"
