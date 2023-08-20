@@ -12,6 +12,9 @@ const SEARCH_DATA = [
   {
     text: '책제목',
   },
+  {
+    text: 'ISBN',
+  },
 ];
 
 const Select = () => {
