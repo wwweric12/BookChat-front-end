@@ -17,15 +17,14 @@ const BoardList = () => {
   const location = useLocation();
 
   const { title, isbn, authors, thumbnail } = location.state;
-  
-  const [count, setCount] = useState(0); // 책 총 개수
-  const [pageInfo, setPageInfo] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 값 1
-  const [bookPerPage] = useState(5); // 한 페이지에 보여질 책 개수
-  const [indexOfFirstBook, setIndexOfFirstBook] = useState(0); // 현재 페이지의 첫번째 아이템 인덱스
-  const [indexOfLastBook, setIndexOfLastBook] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
-  const [currentBook, setCurrentBook] = useState([]); // 현재 페이지에서 보여지는 책들
 
+  const [count, setCount] = useState(0);
+  const [pageInfo, setPageInfo] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bookPerPage] = useState(5);
+  const [indexOfFirstBook, setIndexOfFirstBook] = useState(0);
+  const [indexOfLastBook, setIndexOfLastBook] = useState(0);
+  const [currentBook, setCurrentBook] = useState([]);
 
   const CATEGORIES = [
     { title: '문제풀이', category: 'SOLUTION' },
@@ -45,12 +44,14 @@ const BoardList = () => {
 
   const callbackFunction = (data) => {
     setBoardList(data.data.results);
-
     setPageInfo(data.data.pageInfo);
   };
+
   useEffect(() => {
     AxiosBoardList({ setBoardList, location });
   }, [location.state.isbn]);
+
+  useEffect(() => {
     if (state.ALL) {
       AxiosBoardList({ callbackFunction, location, page: currentPage });
     } else {
@@ -66,7 +67,6 @@ const BoardList = () => {
     setCurrentBook(boardList?.slice(indexOfFirstBook, indexOfLastBook));
   }, [currentPage, indexOfLastBook, indexOfFirstBook, boardList, bookPerPage]);
 
-
   const handleWrite = () => {
     navigate('/createpost', { state: { title, isbn, authors, thumbnail } });
   };
@@ -76,7 +76,7 @@ const BoardList = () => {
   };
 
   return (
-    <BoardListConatiner>
+    <BoardListContainer>
       <BookList data={location.state} isSearch={false} />
       <CategoryBox>
         {CATEGORIES.map((item, index) => (
@@ -100,20 +100,20 @@ const BoardList = () => {
         <BoardListSearch location={location} callbackFunction={callbackFunction} setState={setState} />
       </SearchContainer>
       <BoardContainer>
-        {boardList.map((item) => (
+        {currentBook.map((item) => (
           <Link to={`/board/${item.id}`} key={item.id}>
             <BoardListComponent data={item} />
           </Link>
         ))}
       </BoardContainer>
       {count && <Paging page={currentPage} count={count} setPage={setPage} />}
-    </BoardListConatiner>
+    </BoardListContainer>
   );
 };
 
 export default BoardList;
 
-const BoardListConatiner = styled.div`
+const BoardListContainer = styled.div`
   width: 900px;
   margin: 0 auto;
   display: flex;
