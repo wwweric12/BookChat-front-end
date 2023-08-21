@@ -2,18 +2,24 @@ import { useRecoilValue } from 'recoil';
 import { styled } from 'styled-components';
 
 import { AxiosBoardCategory } from '../../api/Board/AxiosBoardCategory';
+import { AxiosBoardList } from '../../api/Board/AxiosBoardList';
 
 import { BoardAtom } from './atom/BoardAtom.jsx';
 
-const CategoryButton = ({ children, category, setBoardList, state, setState, isbn }) => {
+const CategoryButton = ({ children, category, callbackFunction, state, setState, location, page }) => {
   const searchKeyWord = useRecoilValue(BoardAtom);
   const handleClick = () => {
-    AxiosBoardCategory({ category, setBoardList, searchKeyWord, isbn });
+    if (category === 'ALL') {
+      AxiosBoardList({ callbackFunction, location, page });
+    } else {
+      AxiosBoardCategory({ category, callbackFunction, searchKeyWord, location, page });
+    }
     setState({
       SOLUTION: false,
       CONCEPT: false,
       TYPO: false,
       QUESTION: false,
+      ALL: false,
       [category]: true,
     });
   };

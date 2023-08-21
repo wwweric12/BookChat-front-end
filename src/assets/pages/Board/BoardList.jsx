@@ -3,24 +3,36 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
+import { AxiosBoardCategory } from '../../../api/Board/AxiosBoardCategory.js';
 import { AxiosBoardList } from '../../../api/Board/AxiosBoardList.js';
 import BoardListComponent from '../../component/BoardListComponent.jsx';
 import BoardListSearch from '../../component/BoardListSearch.jsx';
 import BookList from '../../component/BookList.jsx';
 import CategoryButton from '../../component/CategoryButton.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
+import Paging from '../Paging/Paging.jsx';
 
 const BoardList = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const { title, isbn, authors, thumbnail } = location.state;
+  
+  const [count, setCount] = useState(0); // 책 총 개수
+  const [pageInfo, setPageInfo] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 값 1
+  const [bookPerPage] = useState(5); // 한 페이지에 보여질 책 개수
+  const [indexOfFirstBook, setIndexOfFirstBook] = useState(0); // 현재 페이지의 첫번째 아이템 인덱스
+  const [indexOfLastBook, setIndexOfLastBook] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
+  const [currentBook, setCurrentBook] = useState([]); // 현재 페이지에서 보여지는 책들
+
 
   const CATEGORIES = [
     { title: '문제풀이', category: 'SOLUTION' },
     { title: '개념풀이', category: 'CONCEPT' },
     { title: '오타오역', category: 'TYPO' },
     { title: '질문', category: 'QUESTION' },
+    { title: '전체', category: 'ALL' },
   ];
   const [boardList, setBoardList] = useState([]);
   const [state, setState] = useState({
@@ -28,14 +40,39 @@ const BoardList = () => {
     CONCEPT: false,
     TYPO: false,
     QUESTION: false,
+    ALL: true,
   });
 
+  const callbackFunction = (data) => {
+    setBoardList(data.data.results);
+
+    setPageInfo(data.data.pageInfo);
+  };
   useEffect(() => {
     AxiosBoardList({ setBoardList, location });
   }, [location.state.isbn]);
+    if (state.ALL) {
+      AxiosBoardList({ callbackFunction, location, page: currentPage });
+    } else {
+      const category = Object.keys(state).filter((item) => state[item]);
+      AxiosBoardCategory({ callbackFunction, location, page: currentPage, category });
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCount(pageInfo?.totalElements);
+    setIndexOfLastBook(currentPage * bookPerPage);
+    setIndexOfFirstBook(indexOfLastBook - bookPerPage);
+    setCurrentBook(boardList?.slice(indexOfFirstBook, indexOfLastBook));
+  }, [currentPage, indexOfLastBook, indexOfFirstBook, boardList, bookPerPage]);
+
 
   const handleWrite = () => {
     navigate('/createpost', { state: { title, isbn, authors, thumbnail } });
+  };
+
+  const setPage = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -44,12 +81,13 @@ const BoardList = () => {
       <CategoryBox>
         {CATEGORIES.map((item, index) => (
           <CategoryButton
-            isbn={location.state.isbn}
+            location={location}
             state={state}
             setState={setState}
-            setBoardList={setBoardList}
+            callbackFunction={callbackFunction}
             category={item.category}
             key={index}
+            page={currentPage}
           >
             {item.title}
           </CategoryButton>
@@ -59,7 +97,7 @@ const BoardList = () => {
         </div>
       </CategoryBox>
       <SearchContainer>
-        <BoardListSearch setBoardList={setBoardList} setState={setState} />
+        <BoardListSearch location={location} callbackFunction={callbackFunction} setState={setState} />
       </SearchContainer>
       <BoardContainer>
         {boardList.map((item) => (
@@ -68,6 +106,7 @@ const BoardList = () => {
           </Link>
         ))}
       </BoardContainer>
+      {count && <Paging page={currentPage} count={count} setPage={setPage} />}
     </BoardListConatiner>
   );
 };
