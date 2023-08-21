@@ -13,10 +13,11 @@ import Paging from '../Paging/Paging.jsx';
 const SearchBook = () => {
   const [bookList, setBookList] = useState([]);
   const [searchText, setSearchText] = useRecoilState(BookAtom);
+  const [pageInfo, setPageInfo] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 값 1
   const [count, setCount] = useState(0); // 책 총 개수
-  const [bookPerPage] = useState(1); // 한 페이지에 보여질 책 개수
+  const [bookPerPage] = useState(5); // 한 페이지에 보여질 책 개수
   const [indexOfFirstBook, setIndexOfFirstBook] = useState(0); // 현재 페이지의 첫번째 아이템 인덱스
   const [indexOfLastBook, setIndexOfLastBook] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
   const [currentBook, setCurrentBook] = useState([]); // 현재 페이지에서 보여지는 책들
@@ -24,12 +25,14 @@ const SearchBook = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('query') || '';
-  const test = queryParams.get('searchField') || '';
+  const text = queryParams.get('searchField') || '';
 
   const fetchData = async () => {
     try {
-      const response = await AxiosSearchBook({ searchQuery: searchQuery, test: test });
-      setBookList(response.data.results);
+      const response = await AxiosSearchBook({ searchQuery, text, page: currentPage });
+      setBookList(response?.data?.results);
+      setPageInfo(response?.data?.pageInfo);
+      console.log(bookList);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -37,14 +40,14 @@ const SearchBook = () => {
 
   useEffect(() => {
     fetchData();
-  }, [searchQuery]);
+  }, [searchQuery, currentPage]);
 
-  const setPage = (error) => {
-    setCurrentPage(error);
+  const setPage = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   useEffect(() => {
-    setCount(bookList?.length);
+    setCount(pageInfo?.totalElements);
     setIndexOfLastBook(currentPage * bookPerPage);
     setIndexOfFirstBook(indexOfLastBook - bookPerPage);
     setCurrentBook(bookList?.slice(indexOfFirstBook, indexOfLastBook));
@@ -61,10 +64,10 @@ const SearchBook = () => {
       <SearchBar onSearch={handleSearch} />
       <ResultTextBox>
         <ResultName>{`'${searchQuery}'`}</ResultName>
-        <ResultText>{`에 대한 ${bookList.length}개의 검색 결과`}</ResultText>
+        <ResultText>{`에 대한 ${pageInfo?.totalElements}개의 검색 결과`}</ResultText>
       </ResultTextBox>
       <ResultBookList>
-        {bookList.map((item, index) => (
+        {bookList?.map((item, index) => (
           <BookList data={item} key={index} />
         ))}
       </ResultBookList>
