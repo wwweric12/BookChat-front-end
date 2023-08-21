@@ -37,7 +37,7 @@ const Login = ({ setIsLoggined }) => {
       <LoginTitle>로그인</LoginTitle>
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>
-          <Input title="이메일" placeholder="이메일를 입력해주세요" register={register} inputId="email" />
+          <Input title="이메일" placeholder="이메일을 입력해주세요" register={register} inputId="email" />
           {errors.email && <LoginError>{errors.email.message}</LoginError>}
           <Input
             title="비밀번호"
