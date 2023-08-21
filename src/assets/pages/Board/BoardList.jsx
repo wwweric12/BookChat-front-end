@@ -42,6 +42,7 @@ const BoardList = () => {
       <CategoryBox>
         {CATEGORIES.map((item, index) => (
           <CategoryButton
+            isbn={location.state.isbn}
             state={state}
             setState={setState}
             setBoardList={setBoardList}
