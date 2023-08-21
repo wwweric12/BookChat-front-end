@@ -6,17 +6,17 @@ import Eye from '../images/Eye.svg';
 import BoardCategory from './BoardCategory.jsx';
 
 const BoardListComponent = ({ data }) => {
-  const { author, date, title, view, comment, category } = data;
+  const { writer, createdAt, title, view, comment, boardCategory } = data;
   return (
     <Container>
       <BoardListContainer>
         <BoardListHeader>
-          <BoardListAuthor>{author}</BoardListAuthor>
-          <BoardListDate>{date}</BoardListDate>
+          <BoardListAuthor>{writer}</BoardListAuthor>
+          <BoardListDate>{createdAt}</BoardListDate>
         </BoardListHeader>
         <BoardListTitle>{title}</BoardListTitle>
         <BoardDetailContainer>
-          <BoardCategory category={category} />
+          <BoardCategory category={boardCategory} />
           <BoardDetail>
             <BoardViewBox>
               <img src={Eye} alt="view-icon" />

@@ -1,50 +1,64 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
+import { AxiosBoardList } from '../../../api/Board/AxiosBoardList.js';
 import BoardListComponent from '../../component/BoardListComponent.jsx';
+import BoardListSearch from '../../component/BoardListSearch.jsx';
 import BookList from '../../component/BookList.jsx';
 import CategoryButton from '../../component/CategoryButton.jsx';
-import SearchBar from '../../component/SearchBar.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import Jungho from '../../images/Jungho.svg';
 const BoardList = () => {
-  const item = { img: Jungho, title: '5공학관 호이짜님', author: 'gbgur', isSearch: false };
-  const BOARD_LIST_DATA = [
-    {
-      author: '경규혁',
-      date: '2일전',
-      title: '규혁이네 집가서 규혁이함여',
-      view: '2323',
-      comment: '3232',
-      category: '문제풀이',
-      id: 1,
-    },
-    {
-      author: '최원유',
-      date: '243일전',
-      title: '언거거거 구구 집가서 규혁이함여',
-      view: '2323',
-      comment: '3232',
-      category: '개념풀이',
-      id: 2,
-    },
+  const navigate = useNavigate();
+  const CATEGORIES = [
+    { title: '문제풀이', category: 'SOLUTION' },
+    { title: '개념풀이', category: 'CONCEPT' },
+    { title: '오타오역', category: 'TYPO' },
+    { title: '질문', category: 'QUESTION' },
   ];
+  const item = { img: Jungho, title: '5공학관 호이짜님', author: 'gbgur', isSearch: false };
+  const [boardList, setBoardList] = useState([]);
+  const [state, setState] = useState({
+    SOLUTION: false,
+    CONCEPT: false,
+    TYPO: false,
+    QUESTION: false,
+  });
+
+  useEffect(() => {
+    AxiosBoardList({ setBoardList });
+  }, []);
+
+  const handleWrite = () => {
+    navigate('/createpost');
+  };
+
   return (
     <BoardListConatiner>
       <BookList data={item} />
       <CategoryBox>
-        <CategoryButton text="문제풀이" />
-        <CategoryButton text="개념풀이" />
-        <CategoryButton text="오타/오역" />
-        <CategoryButton text="질문" />
-        <CategoryButton text="전체" />
-        <SmallButton text="게시글 작성" />
+        {CATEGORIES.map((item, index) => (
+          <CategoryButton
+            state={state}
+            setState={setState}
+            setBoardList={setBoardList}
+            category={item.category}
+            key={index}
+          >
+            {item.title}
+          </CategoryButton>
+        ))}
+        <div onClick={handleWrite}>
+          <SmallButton>게시글 작성</SmallButton>
+        </div>
       </CategoryBox>
       <SearchContainer>
-        <SearchBar />
+        <BoardListSearch setBoardList={setBoardList} setState={setState} />
       </SearchContainer>
       <BoardContainer>
-        {BOARD_LIST_DATA.map((item) => (
+        {boardList.map((item) => (
           <Link to={`/board/${item.id}`}>
             <BoardListComponent data={item} />
           </Link>
