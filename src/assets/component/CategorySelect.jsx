@@ -49,7 +49,7 @@ const Container = styled.div`
 
 const SelectBox = styled.select`
   width: 770px;
-  height: 60px;
+  height: 40px;
   display: flex;
   text-align: center;
   appearance: none;

@@ -13,11 +13,11 @@ const CreatePost = () => {
         </CategoryContainer>
         <TitleContainer>
           <TitleText>제목</TitleText>
-          <TitleInput placeholder="제목을 입력해주세요."></TitleInput>
+          <TitleInput placeholder="제목을 입력해주세요." />
         </TitleContainer>
         <ContentContainer>
           <ContentText>본문</ContentText>
-          <ContentInput placeholder="본문을 입력해주세요."></ContentInput>
+          <ContentInput placeholder="본문을 입력해주세요." />
         </ContentContainer>
         <SmallButton text="작성하기" />
       </Container>
@@ -48,7 +48,7 @@ const CategoryContainer = styled.div`
 `;
 
 const CategoryText = styled.p`
-  font-size: 35px;
+  font-size: 30px;
 `;
 
 const TitleContainer = styled.div`
@@ -57,13 +57,13 @@ const TitleContainer = styled.div`
 `;
 
 const TitleText = styled.p`
-  font-size: 35px;
+  font-size: 30px;
 `;
 
 const TitleInput = styled.input`
-  padding: 10px;
+  padding: 15px;
   width: 770px;
-  height: 60px;
+  height: 45px;
   border: 1px solid ${({ theme }) => theme.colors.BLACK};
   border-radius: 10px;
   font-size: 20px;
@@ -75,14 +75,14 @@ const ContentContainer = styled.div`
 `;
 
 const ContentText = styled.p`
-  font-size: 35px;
+  font-size: 30px;
 `;
 
 const ContentInput = styled.textarea`
   resize: none;
   width: 770px;
   height: 264px;
-  padding: 10px;
+  padding: 15px;
   font-size: 20px;
   border-radius: 20px;
   margin-bottom: 30px;
