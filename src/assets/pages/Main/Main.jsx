@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
+import { BookAtom } from '../../component/atom/BookAtom.jsx';
 import ChatModal from '../../component/Modal/ChatModal.jsx';
 import SearchBar from '../../component/SearchBar.jsx';
 import Chat from '../../images/Chatlist.svg';
@@ -10,11 +12,19 @@ import ChatFocus from '../../images/ChattingFocus.svg';
 
 const Main = () => {
   const navigate = useNavigate();
+  const [searchText, setSearchText] = useRecoilState(BookAtom);
 
   const [showModal, setShowModal] = useState(false);
 
+  useEffect(() => {
+    if (!localStorage.getItem('accessToken')) {
+      navigate('/login');
+      alert('로그인이 필요합니다');
+    }
+  }, []);
+
   const handleSearch = (searchKeyWord) => {
-    navigate(`/search?q=${encodeURIComponent(searchKeyWord)}`);
+    navigate(`/books?query=${searchKeyWord}&searchField=${searchText}`);
   };
 
   const handleModal = () => {

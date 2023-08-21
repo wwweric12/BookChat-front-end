@@ -1,14 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
+import { AxiosSignin } from '../../../api/AxiosSignin.js';
 import Input from '../../component/Input.jsx';
 import LargeButton from '../../component/LargeButton.jsx';
 
 import { validation } from './Validation.jsx';
 
-const Login = () => {
+const Login = ({ setIsLoggined }) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,8 +21,15 @@ const Login = () => {
     reValidateMode: 'onSubmit',
   });
 
+  const callbackFunction = (data) => {
+    alert(data.message);
+    localStorage.setItem('accessToken', data.data.accessToken);
+    navigate('/');
+    setIsLoggined(true);
+  };
+
   const onSubmit = (data) => {
-    console.log(data);
+    AxiosSignin(data, callbackFunction);
   };
 
   return (
@@ -28,8 +37,8 @@ const Login = () => {
       <LoginTitle>로그인</LoginTitle>
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>
-          <Input title="아이디" placeholder="아이디를 입력해주세요" type="id" register={register} inputId="id" />
-          {errors.id && <LoginError>{errors.id.message}</LoginError>}
+          <Input title="이메일" placeholder="이메일을 입력해주세요" register={register} inputId="email" />
+          {errors.email && <LoginError>{errors.email.message}</LoginError>}
           <Input
             title="비밀번호"
             placeholder="비밀번호를 입력해주세요"

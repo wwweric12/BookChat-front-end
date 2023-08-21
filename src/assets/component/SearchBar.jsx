@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import SearchIcon from '../images/Search.svg';
@@ -52,6 +51,7 @@ const SearchInput = styled.input`
   border: none;
   border-left: 1px solid ${({ theme }) => theme.colors.GRAY};
   margin-right: 40px;
+  margin-left: 20px;
 
   &::placeholder {
     font-size: 20px;

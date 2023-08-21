@@ -3,33 +3,41 @@ import { styled } from 'styled-components';
 import GoChatGoBoard from './GoChatGoBoard.jsx';
 
 const BookList = ({ data }) => {
-  const { img, title, author, isSearch } = data;
+  const { isbn, title, authors, thumbnail } = data;
+
   const MOVE_DATA = [
     {
       title,
+      authors,
+      thumbnail,
+      isbn,
       text: 'Go Chat',
       move: 'chat',
     },
     {
       title,
+      authors,
+      thumbnail,
+      isbn,
       text: 'Go Board',
       move: 'boardlist',
     },
   ];
   return (
     <Container>
-      <BookImg src={img} alt="책 이미지" />
+      <BookImg src={thumbnail} alt="책 이미지" />
       <BookDetailBox>
         <BookTitle>{title}</BookTitle>
-        <BookAuthor>{author}</BookAuthor>
+        <BookAuthor>저자: {authors?.toLocaleString()}</BookAuthor>
+        <BookIsbn>ISBN: {isbn}</BookIsbn>
       </BookDetailBox>
-      {isSearch ?? (
+      {
         <GoBox>
           {MOVE_DATA.map((item) => (
             <GoChatGoBoard data={item} />
           ))}
         </GoBox>
-      )}
+      }
     </Container>
   );
 };
@@ -59,14 +67,20 @@ const BookDetailBox = styled.div`
 const BookTitle = styled.p`
   font-size: 25px;
   height: 60px;
-  line-height: 60px;
+  line-height: 30px;
+  margin-top: 20px;
 `;
 
 const BookAuthor = styled.p`
   font-size: 15px;
   color: ${({ theme }) => theme.colors.GRAY2};
-  height: 60px;
+  height: 40px;
   line-height: 60px;
+`;
+
+const BookIsbn = styled.p`
+  font-size: 15px;
+  color: ${({ theme }) => theme.colors.GRAY2};
 `;
 
 const GoBox = styled.div`

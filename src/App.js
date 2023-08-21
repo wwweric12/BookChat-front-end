@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
@@ -13,18 +15,25 @@ import Signup from './assets/pages/Signup/Signup.jsx';
 import { Theme } from './styles/Theme';
 
 const App = () => {
+  const [isLoggined, setIsLoggined] = useState(false);
+  const accessKey = localStorage.getItem('accessToken');
+  useEffect(() => {
+    if (accessKey) {
+      setIsLoggined(true);
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={Theme}>
       <Router>
-        <Header />
-
+        <Header isLoggined={isLoggined} setIsLoggined={setIsLoggined} accessKey={accessKey} />
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsLoggined={setIsLoggined} />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Main />} />
           <Route path="/chat/:id" element={<Chatting />} />
-          <Route path="/search" element={<SearchBook />} />
           <Route path="/post" element={<Post />} />
+          <Route path="/books" element={<SearchBook />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/boardlist/:id" element={<BoardList />} />
           {/* <Route path="/boardlist/:id" element={<Board />} /> */}
