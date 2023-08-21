@@ -7,12 +7,15 @@ import Option from './Option.jsx';
 
 const SEARCH_DATA = [
   {
-    text: '저자',
+    ko: '저자',
+    text: 'AUTHOR',
   },
   {
-    text: '책제목',
+    ko: '제목',
+    text: 'TITLE',
   },
   {
+    ko: 'ISBN',
     text: 'ISBN',
   },
 ];
@@ -27,8 +30,8 @@ const Select = () => {
   return (
     <Container>
       <SelectBox value={searchText} onChange={handleSearchChange}>
-        {SEARCH_DATA.map((item) => (
-          <Option text={item.text} key={item.text} />
+        {SEARCH_DATA.map((item, index) => (
+          <Option ko={item.ko} text={item.text} key={index} />
         ))}
       </SelectBox>
     </Container>
