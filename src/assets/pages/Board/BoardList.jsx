@@ -59,7 +59,7 @@ const BoardList = () => {
       </SearchContainer>
       <BoardContainer>
         {boardList.map((item) => (
-          <Link to={`/board/${item.id}`}>
+          <Link to={`/board/${item.id}`} key={item.id}>
             <BoardListComponent data={item} />
           </Link>
         ))}
