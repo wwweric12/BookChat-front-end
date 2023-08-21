@@ -1,8 +1,7 @@
 import { styled } from 'styled-components';
 
-const SmallButton = ({ text }) => {
-  // <SmallButton text="작성하기"/> 이런식으로 사용하시면 됩니다.
-  return <Button>{text}</Button>;
+const SmallButton = ({ children }) => {
+  return <Button>{children}</Button>;
 };
 
 export default SmallButton;

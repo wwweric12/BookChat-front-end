@@ -19,7 +19,7 @@ const CreatePost = () => {
           <ContentText>본문</ContentText>
           <ContentInput placeholder="본문을 입력해주세요." />
         </ContentContainer>
-        <SmallButton text="작성하기" />
+        <SmallButton>작성하기</SmallButton>
       </Container>
     </BackGround>
   );
@@ -39,7 +39,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  margin: 100px 0;
 `;
 
 const CategoryContainer = styled.div`

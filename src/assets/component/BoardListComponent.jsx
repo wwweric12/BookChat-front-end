@@ -2,21 +2,36 @@ import { styled } from 'styled-components';
 
 import BoardChat from '../images/Board-chat.svg';
 import Eye from '../images/Eye.svg';
+import { FormatTime } from '../util/FormatTime.jsx';
 
 import BoardCategory from './BoardCategory.jsx';
 
 const BoardListComponent = ({ data }) => {
-  const { author, date, title, view, comment, category } = data;
+  const { writer, createdAt, title, view, comment, boardCategory } = data;
+
+  const handleCategory = () => {
+    switch (boardCategory) {
+      case 'QUESTION':
+        return '질문';
+      case 'SOLUTION':
+        return '문제풀이';
+      case 'TYPO':
+        return '오타/오역';
+      case 'CONCEPT':
+        return '개념풀이';
+    }
+  };
+
   return (
     <Container>
       <BoardListContainer>
         <BoardListHeader>
-          <BoardListAuthor>{author}</BoardListAuthor>
-          <BoardListDate>{date}</BoardListDate>
+          <BoardListAuthor>{writer}</BoardListAuthor>
+          <BoardListDate>{FormatTime(createdAt)}</BoardListDate>
         </BoardListHeader>
         <BoardListTitle>{title}</BoardListTitle>
         <BoardDetailContainer>
-          <BoardCategory category={category} />
+          <BoardCategory category={handleCategory()} />
           <BoardDetail>
             <BoardViewBox>
               <img src={Eye} alt="view-icon" />
