@@ -16,7 +16,7 @@ const Paging = ({ page, count, setPage }) => {
     <StyledPagination>
       <Pagination
         activePage={page}
-        itemsCountPerPage={3}
+        itemsCountPerPage={5}
         totalItemsCount={count}
         pageRangeDisplayed={5}
         prevPageText={'<'}
