@@ -16,6 +16,8 @@ const BoardList = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { title, isbn, authors, thumbnail } = location.state;
+  
   const [count, setCount] = useState(0); // 책 총 개수
   const [pageInfo, setPageInfo] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 값 1
@@ -23,6 +25,7 @@ const BoardList = () => {
   const [indexOfFirstBook, setIndexOfFirstBook] = useState(0); // 현재 페이지의 첫번째 아이템 인덱스
   const [indexOfLastBook, setIndexOfLastBook] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
   const [currentBook, setCurrentBook] = useState([]); // 현재 페이지에서 보여지는 책들
+
 
   const CATEGORIES = [
     { title: '문제풀이', category: 'SOLUTION' },
@@ -46,6 +49,8 @@ const BoardList = () => {
     setPageInfo(data.data.pageInfo);
   };
   useEffect(() => {
+    AxiosBoardList({ setBoardList, location });
+  }, [location.state.isbn]);
     if (state.ALL) {
       AxiosBoardList({ callbackFunction, location, page: currentPage });
     } else {
@@ -61,8 +66,9 @@ const BoardList = () => {
     setCurrentBook(boardList?.slice(indexOfFirstBook, indexOfLastBook));
   }, [currentPage, indexOfLastBook, indexOfFirstBook, boardList, bookPerPage]);
 
+
   const handleWrite = () => {
-    navigate('/createpost');
+    navigate('/createpost', { state: { title, isbn, authors, thumbnail } });
   };
 
   const setPage = (newPage) => {
