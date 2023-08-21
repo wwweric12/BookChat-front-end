@@ -1,6 +1,6 @@
 import { Axios } from '../Axios';
 
-export const AxiosBoardList = async ({ searchKeyWord, setBoardList, location }) => {
+export const AxiosBoardList = async ({ searchKeyWord, callbackFunction, location, page }) => {
   try {
     const res = await Axios.get(`/books/${location.state.isbn}/boards`, {
       headers: {
@@ -8,10 +8,11 @@ export const AxiosBoardList = async ({ searchKeyWord, setBoardList, location }) 
       },
       params: {
         keyword: searchKeyWord,
+        page,
       },
     });
 
-    setBoardList(res.data.data.results);
+    callbackFunction(res.data);
   } catch (error) {
     console.log(error);
     alert(error.response.data.cause);

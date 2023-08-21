@@ -6,7 +6,7 @@ import SearchIcon from '../images/Search.svg';
 
 import { BoardAtom } from './atom/BoardAtom.jsx';
 
-const BoardListSearch = ({ setBoardList, setState }) => {
+const BoardListSearch = ({ callbackFunction, setState, location }) => {
   const [searchKeyWord, setSearchKeyWord] = useRecoilState(BoardAtom);
 
   const onChangeHandler = (event) => {
@@ -15,7 +15,7 @@ const BoardListSearch = ({ setBoardList, setState }) => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    AxiosBoardList({ searchKeyWord, setBoardList });
+    AxiosBoardList({ searchKeyWord, callbackFunction, location });
     setState({
       SOLUTION: false,
       CONCEPT: false,
