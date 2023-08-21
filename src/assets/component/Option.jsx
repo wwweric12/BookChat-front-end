@@ -1,5 +1,6 @@
-const Option = ({ text }) => {
-  return <option>{text}</option>;
+const Option = ({ data }) => {
+  const { text: ko } = data;
+  return <option>{ko}</option>;
 };
 
 export default Option;

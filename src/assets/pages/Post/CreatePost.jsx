@@ -1,9 +1,12 @@
 import { styled } from 'styled-components';
 
+import { AxiosCreatePost } from '../../../api/AxiosCreatePost.js';
 import CategorySelect from '../../component/CategorySelect.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 
 const CreatePost = () => {
+  AxiosCreatePost();
+
   return (
     <BackGround>
       <Container>

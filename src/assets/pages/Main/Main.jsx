@@ -65,7 +65,7 @@ const ChattingImg = styled.img`
 
 const ModalContainer = styled.div`
   position: absolute;
-  bottom: 50px;
+  bottom: 190px;
   right: 60px;
   z-index: 10;
 `;

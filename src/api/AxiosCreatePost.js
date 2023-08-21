@@ -1,16 +1,15 @@
 import { Axios } from './Axios';
 
-export const AxiosSearchBook = async ({ searchQuery, text, page }) => {
+export const AxiosCreatePost = async (data, isbn) => {
+  const { title, content, boardCategory } = data;
   try {
-    const response = await Axios.get('/books', {
+    const response = await Axios.post(`/books/${isbn}/boards`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
-      params: {
-        query: searchQuery,
-        searchField: text,
-        page,
-      },
+      title,
+      content,
+      boardCategory,
     });
     return response.data;
   } catch (error) {
