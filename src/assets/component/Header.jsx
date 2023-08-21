@@ -4,14 +4,25 @@ import { styled } from 'styled-components';
 import Logo from '../images/Logo.svg';
 import Logout from '../images/Logout.svg';
 
-const Header = () => {
+const Header = ({ isLoggined, setIsLoggined }) => {
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+    localStorage.removeItem('accessToken');
+    setIsLoggined(false);
+    alert('로그아웃 하셨습니다!');
+    navigate('/login');
+  };
 
   return (
     <>
       <Container>
         <LogoImg src={Logo} alt="로고 이미지" onClick={() => navigate('/')} />
-        <Exit src={Logout} alt="로그아웃 이미지" />
+        {isLoggined && (
+          <button onClick={handleLogin}>
+            <Exit src={Logout} alt="로그아웃 이미지" />
+          </button>
+        )}
       </Container>
     </>
   );

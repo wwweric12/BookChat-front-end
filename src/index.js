@@ -8,10 +8,8 @@ import GlobalStyle from './styles/GlobalStyle.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <GlobalStyle />
-      <App />
-    </RecoilRoot>
-  </React.StrictMode>,
+  <RecoilRoot>
+    <GlobalStyle />
+    <App />
+  </RecoilRoot>,
 );

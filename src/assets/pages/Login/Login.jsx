@@ -9,7 +9,7 @@ import LargeButton from '../../component/LargeButton.jsx';
 
 import { validation } from './Validation.jsx';
 
-const Login = () => {
+const Login = ({ setIsLoggined }) => {
   const navigate = useNavigate();
   const {
     register,
@@ -25,6 +25,7 @@ const Login = () => {
     alert(data.message);
     localStorage.setItem('accessToken', data.data.accessToken);
     navigate('/');
+    setIsLoggined(true);
   };
 
   const onSubmit = (data) => {
