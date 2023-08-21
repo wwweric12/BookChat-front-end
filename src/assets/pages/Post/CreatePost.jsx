@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { AxiosCreatePost } from '../../../api/AxiosCreatePost.js';
@@ -5,24 +8,55 @@ import CategorySelect from '../../component/CategorySelect.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 
 const CreatePost = () => {
-  AxiosCreatePost();
+  const { state } = useLocation();
+  const { isbn, title, authors, thumbnail } = state;
+
+  const [postTitle, setPostTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  const onChangeTitle = (e) => {
+    setPostTitle(e.target.value);
+  };
+
+  const onChangeContent = (e) => {
+    setContent(e.target.value);
+  };
+
+  const navigate = useNavigate();
+
+  const goBoardList = () => {
+    navigate(`/boardlist/${isbn}`, { state: { title, isbn, authors, thumbnail } });
+  };
+
+  const [boardCategory, setBoardCategory] = useState('QUESTION'); // 초기값 설정
+
+  const onCategoryChange = (selectedCategory) => {
+    setBoardCategory(selectedCategory); // 선택한 카테고리 값을 상태로 업데이트
+  };
 
   return (
     <BackGround>
       <Container>
         <CategoryContainer>
           <CategoryText>카테고리</CategoryText>
-          <CategorySelect />
+          <CategorySelect onCategoryChange={onCategoryChange} />
         </CategoryContainer>
         <TitleContainer>
           <TitleText>제목</TitleText>
-          <TitleInput placeholder="제목을 입력해주세요." />
+          <TitleInput placeholder="제목을 입력해주세요." onChange={onChangeTitle} />
         </TitleContainer>
         <ContentContainer>
           <ContentText>본문</ContentText>
-          <ContentInput placeholder="본문을 입력해주세요." />
+          <ContentInput placeholder="본문을 입력해주세요." onChange={onChangeContent} />
         </ContentContainer>
-        <SmallButton>작성하기</SmallButton>
+        <SmallButton
+          handleClick={() => {
+            AxiosCreatePost({ postTitle, content, isbn, boardCategory });
+            goBoardList();
+          }}
+        >
+          작성하기
+        </SmallButton>
       </Container>
     </BackGround>
   );

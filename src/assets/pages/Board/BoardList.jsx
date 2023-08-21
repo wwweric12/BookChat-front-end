@@ -14,6 +14,8 @@ const BoardList = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { title, isbn, authors, thumbnail } = location.state;
+
   const CATEGORIES = [
     { title: '문제풀이', category: 'SOLUTION' },
     { title: '개념풀이', category: 'CONCEPT' },
@@ -30,10 +32,10 @@ const BoardList = () => {
 
   useEffect(() => {
     AxiosBoardList({ setBoardList, location });
-  }, []);
+  }, [location.state.isbn]);
 
   const handleWrite = () => {
-    navigate('/createpost');
+    navigate('/createpost', { state: { title, isbn, authors, thumbnail } });
   };
 
   return (
