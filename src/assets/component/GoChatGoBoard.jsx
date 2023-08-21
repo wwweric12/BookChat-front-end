@@ -4,12 +4,11 @@ import { styled } from 'styled-components';
 import Arrow from '../images/RightArrow.svg';
 
 const GoChatGoBoard = ({ data }) => {
-  const { text, move, title, isbn } = data;
-
+  const { text, move, title, isbn, authors, thumbnail } = data;
   const navigate = useNavigate();
 
   const handleMove = () => {
-    navigate(`/${move}/${isbn}`);
+    navigate(`/${move}/${isbn}`, { state: { title, isbn, authors, thumbnail } });
   };
 
   return (

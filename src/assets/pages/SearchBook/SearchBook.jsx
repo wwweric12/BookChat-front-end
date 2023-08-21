@@ -65,7 +65,7 @@ const SearchBook = () => {
       </ResultTextBox>
       <ResultBookList>
         {bookList.map((item, index) => (
-          <BookList data={item} key={index} />
+          <BookList data={item} key={index} isSearch={true} />
         ))}
       </ResultBookList>
       <PagingArea>
