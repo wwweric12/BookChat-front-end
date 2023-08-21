@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 import GoChatGoBoard from './GoChatGoBoard.jsx';
 
-const BookList = ({ data }) => {
+const BookList = ({ data, isSearch }) => {
   const { isbn, title, authors, thumbnail } = data;
 
   const MOVE_DATA = [
@@ -31,13 +31,13 @@ const BookList = ({ data }) => {
         <BookAuthor>저자: {authors?.toLocaleString()}</BookAuthor>
         <BookIsbn>ISBN: {isbn}</BookIsbn>
       </BookDetailBox>
-      {
+      {isSearch && (
         <GoBox>
           {MOVE_DATA.map((item) => (
             <GoChatGoBoard data={item} />
           ))}
         </GoBox>
-      }
+      )}
     </Container>
   );
 };

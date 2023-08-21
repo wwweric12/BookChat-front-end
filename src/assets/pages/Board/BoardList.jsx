@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { AxiosBoardList } from '../../../api/Board/AxiosBoardList.js';
@@ -9,16 +9,17 @@ import BoardListSearch from '../../component/BoardListSearch.jsx';
 import BookList from '../../component/BookList.jsx';
 import CategoryButton from '../../component/CategoryButton.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
-import Jungho from '../../images/Jungho.svg';
+
 const BoardList = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const CATEGORIES = [
     { title: '문제풀이', category: 'SOLUTION' },
     { title: '개념풀이', category: 'CONCEPT' },
     { title: '오타오역', category: 'TYPO' },
     { title: '질문', category: 'QUESTION' },
   ];
-  const item = { img: Jungho, title: '5공학관 호이짜님', author: 'gbgur', isSearch: false };
   const [boardList, setBoardList] = useState([]);
   const [state, setState] = useState({
     SOLUTION: false,
@@ -28,7 +29,7 @@ const BoardList = () => {
   });
 
   useEffect(() => {
-    AxiosBoardList({ setBoardList });
+    AxiosBoardList({ setBoardList, location });
   }, []);
 
   const handleWrite = () => {
@@ -37,7 +38,7 @@ const BoardList = () => {
 
   return (
     <BoardListConatiner>
-      <BookList data={item} />
+      <BookList data={location.state} isSearch={false} />
       <CategoryBox>
         {CATEGORIES.map((item, index) => (
           <CategoryButton

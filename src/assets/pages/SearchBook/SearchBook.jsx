@@ -67,8 +67,8 @@ const SearchBook = () => {
         <ResultText>{`에 대한 ${pageInfo?.totalElements}개의 검색 결과`}</ResultText>
       </ResultTextBox>
       <ResultBookList>
-        {bookList?.map((item, index) => (
-          <BookList data={item} key={index} />
+        {bookList.map((item, index) => (
+          <BookList data={item} key={index} isSearch={true} />
         ))}
       </ResultBookList>
       <PagingArea>
