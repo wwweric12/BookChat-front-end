@@ -9,6 +9,6 @@ export const AxiosSignin = async (data, callbackFunction) => {
     });
     callbackFunction(res.data);
   } catch (error) {
-    console.log(error.response.data.cause);
+    alert(error.response.data.cause);
   }
 };

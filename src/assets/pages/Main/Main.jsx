@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
@@ -12,6 +12,13 @@ const Main = () => {
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem('accessToken')) {
+      navigate('/login');
+      alert('로그인이 필요합니다');
+    }
+  }, []);
 
   const handleSearch = (searchKeyWord) => {
     navigate(`/search?q=${encodeURIComponent(searchKeyWord)}`);
