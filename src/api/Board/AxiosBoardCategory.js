@@ -1,8 +1,8 @@
 import { Axios } from '../Axios';
 
-export const AxiosBoardCategory = async ({ category, setBoardList, searchKeyWord }) => {
+export const AxiosBoardCategory = async ({ category, setBoardList, searchKeyWord, isbn }) => {
   try {
-    const res = await Axios.get(`/books/1158081375/boards/${category}`, {
+    const res = await Axios.get(`/books/${isbn}/boards/${category}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },

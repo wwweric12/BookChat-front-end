@@ -5,10 +5,10 @@ import { AxiosBoardCategory } from '../../api/Board/AxiosBoardCategory';
 
 import { BoardAtom } from './atom/BoardAtom.jsx';
 
-const CategoryButton = ({ children, category, setBoardList, state, setState }) => {
+const CategoryButton = ({ children, category, setBoardList, state, setState, isbn }) => {
   const searchKeyWord = useRecoilValue(BoardAtom);
   const handleClick = () => {
-    AxiosBoardCategory({ category, setBoardList, searchKeyWord });
+    AxiosBoardCategory({ category, setBoardList, searchKeyWord, isbn });
     setState({
       SOLUTION: false,
       CONCEPT: false,
