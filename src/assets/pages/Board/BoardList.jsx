@@ -73,7 +73,15 @@ const BoardList = () => {
   };
 
   const handleBoard = (item) => {
-    navigate(`/board/${item.id}`, { state: { id: item.id, isbn: location.state.isbn } });
+    navigate(`/board/${item.id}`, {
+      state: {
+        editTitle: item.title,
+        editContent: item.content,
+        editCategory: item.boardCategory,
+        id: item.id,
+        isbn: location.state.isbn,
+      },
+    });
   };
 
   return (

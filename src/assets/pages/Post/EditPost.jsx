@@ -3,15 +3,16 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
-import { AxiosCreatePost } from '../../../api/AxiosCreatePost.js';
+import { AxiosEditPost } from '../../../api/Post/AxiosEditPost.js';
 import CategorySelect from '../../component/CategorySelect.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 
-const CreatePost = () => {
+const EditPost = () => {
   const { state } = useLocation();
-  console.log(state);
 
-  const { isbn, title, authors, thumbnail } = state;
+  const navigate = useNavigate();
+
+  const { title, boardCategory: category, content: detail, isbn, id } = state;
 
   const [postTitle, setPostTitle] = useState('');
   const [content, setContent] = useState('');
@@ -22,12 +23,6 @@ const CreatePost = () => {
 
   const onChangeContent = (e) => {
     setContent(e.target.value);
-  };
-
-  const navigate = useNavigate();
-
-  const goBoardList = () => {
-    navigate(`/boardlist/${isbn}`, { state: { title, isbn, authors, thumbnail } });
   };
 
   const [boardCategory, setBoardCategory] = useState('QUESTION'); // 초기값 설정
@@ -41,32 +36,30 @@ const CreatePost = () => {
       <Container>
         <CategoryContainer>
           <CategoryText>카테고리</CategoryText>
-          <CategorySelect onCategoryChange={onCategoryChange} />
+          <CategorySelect test={category} onCategoryChange={onCategoryChange} />
         </CategoryContainer>
         <TitleContainer>
           <TitleText>제목</TitleText>
-          <TitleInput placeholder="제목을 입력해주세요." onChange={onChangeTitle} />
+          <TitleInput defaultValue={title} placeholder="제목을 입력해주세요." onChange={onChangeTitle} />
         </TitleContainer>
         <ContentContainer>
           <ContentText>본문</ContentText>
-          <ContentInput placeholder="본문을 입력해주세요." onChange={onChangeContent} />
+          <ContentInput defaultValue={detail} placeholder="본문을 입력해주세요." onChange={onChangeContent} />
         </ContentContainer>
-        <ButtonContainer>
-          <SmallButton
-            handleClick={() => {
-              AxiosCreatePost({ postTitle, content, isbn, boardCategory });
-              goBoardList();
-            }}
-          >
-            작성하기
-          </SmallButton>
-        </ButtonContainer>
+        <SmallButton
+          handleClick={() => {
+            AxiosEditPost({ postTitle, content, isbn, boardCategory, id });
+            navigate(-1);
+          }}
+        >
+          수정하기
+        </SmallButton>
       </Container>
     </BackGround>
   );
 };
 
-export default CreatePost;
+export default EditPost;
 
 const BackGround = styled.div`
   width: 100%;
@@ -84,30 +77,26 @@ const Container = styled.div`
 `;
 
 const CategoryContainer = styled.div`
-  width: 740px;
+  width: 770px;
   height: 110px;
-  margin-bottom: 30px;
 `;
 
 const CategoryText = styled.p`
   font-size: 30px;
-  margin-bottom: 15px;
 `;
 
 const TitleContainer = styled.div`
-  width: 740px;
+  width: 770px;
   height: 110px;
-  margin-bottom: 30px;
 `;
 
 const TitleText = styled.p`
   font-size: 30px;
-  margin-bottom: 15px;
 `;
 
 const TitleInput = styled.input`
   padding: 15px;
-  width: 740px;
+  width: 770px;
   height: 45px;
   border: 1px solid ${({ theme }) => theme.colors.BLACK};
   border-radius: 10px;
@@ -115,31 +104,21 @@ const TitleInput = styled.input`
 `;
 
 const ContentContainer = styled.div`
-  width: 740px;
+  width: 770px;
   height: 314px;
-  margin-bottom: 50px;
 `;
 
 const ContentText = styled.p`
   font-size: 30px;
-  margin-bottom: 15px;
 `;
 
 const ContentInput = styled.textarea`
   resize: none;
-  width: 740px;
+  width: 770px;
   height: 264px;
   padding: 15px;
   font-size: 20px;
   border-radius: 20px;
   margin-bottom: 30px;
   border: 1px solid ${({ theme }) => theme.colors.BLACK};
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: end;
-  margin-right: 220px;
 `;
