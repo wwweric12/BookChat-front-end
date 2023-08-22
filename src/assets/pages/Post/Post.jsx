@@ -4,20 +4,23 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
-import { AxiosDeletePost } from '../../../api/AxiosDeletePost.js';
 import { AxiosBoard } from '../../../api/Board/AxiosBoard.js';
 import { AxiosComment } from '../../../api/Comment/AxiosComment.js';
+import { AxiosDeletePost } from '../../../api/Post/AxiosDeletePost';
+import { AxiosEditPost } from '../../../api/Post/AxiosEditPost.js';
 import { BoardTitleAtom } from '../../component/atom/BoardTitleAtom.jsx';
 import Comment from '../../component/Comment.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import { Writer } from '../../component/Writer.jsx';
 import { FormatTime } from '../../util/FormatTime.jsx';
 
-
 const Post = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
+  const { state } = useLocation();
+
+  const { editTitle, editContent, editCategory, isbn, id } = state;
+
   const [locationValue, setLocaitionValue] = useRecoilState(BoardTitleAtom);
   const [board, setBoard] = useState([]);
   const [commentContent, setCommentContent] = useState();
@@ -27,7 +30,6 @@ const Post = () => {
     if (location.state) {
       AxiosBoard({ setBoard, isbn: location.state.isbn, boardId: location.state.id });
       setLocaitionValue(location.state);
-      console.log(locationValue);
     } else {
       AxiosBoard({ setBoard, isbn: locationValue.isbn, boardId: locationValue.id });
     }
@@ -44,8 +46,24 @@ const Post = () => {
   };
 
   const handleDeletePost = () => {
-    AxiosDeletePost({ boardId: locationValue.id, isbn: locationValue.isbn });
+    AxiosDeletePost({ boardId: locationValue.id, isbn: locationValue.isbn, callbackFunction });
+  };
+
+  const callbackFunction = (response) => {
+    alert(response.data.message);
     navigate(-1);
+  };
+
+  const handleGoEdit = () => {
+    navigate('/editpost', {
+      state: {
+        title: editTitle,
+        content: editContent,
+        boardCategory: editCategory,
+        isbn,
+        id,
+      },
+    });
   };
 
   return (
@@ -62,7 +80,9 @@ const Post = () => {
                 {mine && (
                   <>
                     <EditButtonArea>
-                      <SmallButton small={true}>수정</SmallButton>
+                      <SmallButton handleClick={handleGoEdit} small={true}>
+                        수정
+                      </SmallButton>
                     </EditButtonArea>
                     <DeleteButtonArea>
                       <SmallButton handleClick={handleDeletePost} small={true}>

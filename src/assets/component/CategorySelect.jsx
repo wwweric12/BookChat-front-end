@@ -11,7 +11,7 @@ const CATEGORY_DATA = {
   질문: 'QUESTION',
 };
 
-const CategorySelect = ({ onCategoryChange }) => {
+const CategorySelect = ({ onCategoryChange, test }) => {
   const [Category, setCategory] = useState('QUESTION');
   console.log(Category);
 
@@ -23,7 +23,7 @@ const CategorySelect = ({ onCategoryChange }) => {
 
   return (
     <Container>
-      <SelectBox value={Category} onChange={handleCategoryChange}>
+      <SelectBox defaultValue={test} value={Category} onChange={handleCategoryChange}>
         {Object.keys(CATEGORY_DATA).map((item) => (
           <Option text={item} value={CATEGORY_DATA[item]} key={item} />
         ))}

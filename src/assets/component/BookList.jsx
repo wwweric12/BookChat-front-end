@@ -33,8 +33,8 @@ const BookList = ({ data, isSearch }) => {
       </BookDetailBox>
       {isSearch && (
         <GoBox>
-          {MOVE_DATA.map((item) => (
-            <GoChatGoBoard data={item} />
+          {MOVE_DATA.map((item, index) => (
+            <GoChatGoBoard data={item} key={index} />
           ))}
         </GoBox>
       )}
