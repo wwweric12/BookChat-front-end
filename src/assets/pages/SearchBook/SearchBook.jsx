@@ -32,7 +32,6 @@ const SearchBook = () => {
       const response = await AxiosSearchBook({ searchQuery, text, page: currentPage });
       setBookList(response?.data?.results);
       setPageInfo(response?.data?.pageInfo);
-      console.log(pageInfo);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -83,7 +82,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 47px;
+  margin: 47px 0;
 `;
 
 const ResultTextBox = styled.div`
@@ -106,4 +105,6 @@ const ResultBookList = styled.div`
   width: 900px;
 `;
 
-const PagingArea = styled.div``;
+const PagingArea = styled.div`
+  margin: 50px 0;
+`;

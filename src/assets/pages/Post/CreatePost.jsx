@@ -50,14 +50,16 @@ const CreatePost = () => {
           <ContentText>본문</ContentText>
           <ContentInput placeholder="본문을 입력해주세요." onChange={onChangeContent} />
         </ContentContainer>
-        <SmallButton
-          handleClick={() => {
-            AxiosCreatePost({ postTitle, content, isbn, boardCategory });
-            goBoardList();
-          }}
-        >
-          작성하기
-        </SmallButton>
+        <ButtonContainer>
+          <SmallButton
+            handleClick={() => {
+              AxiosCreatePost({ postTitle, content, isbn, boardCategory });
+              goBoardList();
+            }}
+          >
+            작성하기
+          </SmallButton>
+        </ButtonContainer>
       </Container>
     </BackGround>
   );
@@ -81,26 +83,30 @@ const Container = styled.div`
 `;
 
 const CategoryContainer = styled.div`
-  width: 770px;
+  width: 740px;
   height: 110px;
+  margin-bottom: 30px;
 `;
 
 const CategoryText = styled.p`
   font-size: 30px;
+  margin-bottom: 15px;
 `;
 
 const TitleContainer = styled.div`
-  width: 770px;
+  width: 740px;
   height: 110px;
+  margin-bottom: 30px;
 `;
 
 const TitleText = styled.p`
   font-size: 30px;
+  margin-bottom: 15px;
 `;
 
 const TitleInput = styled.input`
   padding: 15px;
-  width: 770px;
+  width: 740px;
   height: 45px;
   border: 1px solid ${({ theme }) => theme.colors.BLACK};
   border-radius: 10px;
@@ -108,21 +114,31 @@ const TitleInput = styled.input`
 `;
 
 const ContentContainer = styled.div`
-  width: 770px;
+  width: 740px;
   height: 314px;
+  margin-bottom: 50px;
 `;
 
 const ContentText = styled.p`
   font-size: 30px;
+  margin-bottom: 15px;
 `;
 
 const ContentInput = styled.textarea`
   resize: none;
-  width: 770px;
+  width: 740px;
   height: 264px;
   padding: 15px;
   font-size: 20px;
   border-radius: 20px;
   margin-bottom: 30px;
   border: 1px solid ${({ theme }) => theme.colors.BLACK};
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: end;
+  margin-right: 220px;
 `;

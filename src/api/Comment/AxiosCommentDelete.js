@@ -9,6 +9,6 @@ export const AxiosCommentDelete = async ({ boardId, commentId, callbackFunction 
     });
     callbackFunction(res);
   } catch (error) {
-    console.log(error);
+    alert(error.response.data.cause);
   }
 };
