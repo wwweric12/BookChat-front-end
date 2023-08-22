@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { AxiosBoardCategory } from '../../../api/Board/AxiosBoardCategory.js';
@@ -18,13 +18,13 @@ const BoardList = () => {
 
   const { title, isbn, authors, thumbnail } = location.state;
 
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0); // 책 총 개수
   const [pageInfo, setPageInfo] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [bookPerPage] = useState(5);
-  const [indexOfFirstBook, setIndexOfFirstBook] = useState(0);
-  const [indexOfLastBook, setIndexOfLastBook] = useState(0);
-  const [currentBook, setCurrentBook] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 값 1
+  const [bookPerPage] = useState(5); // 한 페이지에 보여질 책 개수
+  const [indexOfFirstBook, setIndexOfFirstBook] = useState(0); // 현재 페이지의 첫번째 아이템 인덱스
+  const [indexOfLastBook, setIndexOfLastBook] = useState(0); // 현재 페이지의 마지막 아이템 인덱스
+  const [currentBook, setCurrentBook] = useState([]); // 현재 페이지에서 보여지는 책들
 
   const CATEGORIES = [
     { title: '문제풀이', category: 'SOLUTION' },
@@ -33,6 +33,9 @@ const BoardList = () => {
     { title: '질문', category: 'QUESTION' },
     { title: '전체', category: 'ALL' },
   ];
+
+  console.log(location);
+
   const [boardList, setBoardList] = useState([]);
   const [state, setState] = useState({
     SOLUTION: false,
@@ -46,10 +49,6 @@ const BoardList = () => {
     setBoardList(data.data.results);
     setPageInfo(data.data.pageInfo);
   };
-
-  useEffect(() => {
-    AxiosBoardList({ setBoardList, location });
-  }, [location.state.isbn]);
 
   useEffect(() => {
     if (state.ALL) {
@@ -75,8 +74,13 @@ const BoardList = () => {
     setCurrentPage(newPage);
   };
 
+  const handleBoard = (item) => {
+    console.log(item);
+    navigate(`/board/${item.id}`, { state: { id: item.id, isbn: location.state.isbn } });
+  };
+
   return (
-    <BoardListContainer>
+    <BoardListConatiner>
       <BookList data={location.state} isSearch={false} />
       <CategoryBox>
         {CATEGORIES.map((item, index) => (
@@ -100,20 +104,20 @@ const BoardList = () => {
         <BoardListSearch location={location} callbackFunction={callbackFunction} setState={setState} />
       </SearchContainer>
       <BoardContainer>
-        {currentBook.map((item) => (
-          <Link to={`/board/${item.id}`} key={item.id}>
+        {boardList.map((item) => (
+          <button onClick={() => handleBoard(item)} key={item.id}>
             <BoardListComponent data={item} />
-          </Link>
+          </button>
         ))}
       </BoardContainer>
       {count && <Paging page={currentPage} count={count} setPage={setPage} />}
-    </BoardListContainer>
+    </BoardListConatiner>
   );
 };
 
 export default BoardList;
 
-const BoardListContainer = styled.div`
+const BoardListConatiner = styled.div`
   width: 900px;
   margin: 0 auto;
   display: flex;
