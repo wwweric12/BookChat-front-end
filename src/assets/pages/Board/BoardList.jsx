@@ -34,8 +34,6 @@ const BoardList = () => {
     { title: '전체', category: 'ALL' },
   ];
 
-  console.log(location);
-
   const [boardList, setBoardList] = useState([]);
   const [state, setState] = useState({
     SOLUTION: false,

@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 import User from '../images/User.svg';
+import { FormatTime } from '../util/FormatTime.jsx';
 export const Writer = ({ isBoard, author, view, date }) => {
   return (
     <WriterContaienr>
@@ -8,8 +9,8 @@ export const Writer = ({ isBoard, author, view, date }) => {
       <WriterContent>
         <WriterAuthor>{author}</WriterAuthor>
         <WriterDetail>
-          {isBoard && <ViewCount>{view}</ViewCount>}
-          <WriterDate>{date}</WriterDate>
+          {isBoard && <ViewCount>조회수 {view}</ViewCount>}
+          <WriterDate>{FormatTime(date)}</WriterDate>
         </WriterDetail>
       </WriterContent>
     </WriterContaienr>

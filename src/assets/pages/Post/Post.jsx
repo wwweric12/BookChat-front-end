@@ -1,34 +1,77 @@
+import { useEffect, useState } from 'react';
+
+import { useLocation } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
+import { AxiosBoard } from '../../../api/Board/AxiosBoard.js';
+import { AxiosComment } from '../../../api/Comment/AxiosComment.js';
+import { BoardTitleAtom } from '../../component/atom/BoardTitleAtom.jsx';
 import Comment from '../../component/Comment.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import { Writer } from '../../component/Writer.jsx';
+import { FormatTime } from '../../util/FormatTime.jsx';
 const Post = () => {
+  const location = useLocation();
+  const [locationValue, setLocaitionValue] = useRecoilState(BoardTitleAtom);
+  const [board, setBoard] = useState([]);
+  const [commentContent, setCommentContent] = useState();
+  const [comment, setComment] = useState();
+  console.log(board.comments);
+
+  useEffect(() => {
+    if (location.state) {
+      AxiosBoard({ setBoard, isbn: location.state.isbn, boardId: location.state.id });
+      setLocaitionValue(location.state);
+      console.log(locationValue);
+    } else {
+      AxiosBoard({ setBoard, isbn: locationValue.isbn, boardId: locationValue.id });
+    }
+  }, [location.state]);
+  const { comments, views, createdAt, title, content, mine, writer } = board;
+
+  const handleComment = (event) => {
+    setCommentContent();
+    AxiosComment({ boardId: locationValue.id, content: commentContent, setComment });
+  };
+
+  const handleCommentContent = (e) => {
+    setCommentContent(e.target.value);
+  };
   return (
-    <BackGround>
-      <Container>
-        <Writer isBoard={true} author="내이름규혁" view="123" date="08.19" />
-        <TextContainer>
-          <Title>혹시 제가 예민한건가요?</Title>
-          <ContentBox>
-            <Content>니얼굴이요</Content>
-            <DeleteButtonArea>
-              <SmallButton text="삭제하기" />
-            </DeleteButtonArea>
-          </ContentBox>
-        </TextContainer>
-        <CommentContainer>
-          <CountComment>20개의 댓글</CountComment>
-          <CreateCommentContainer>
-            <CreateComment placeholder="댓글을 작성하세요"></CreateComment>
-            <CreateButtonArea>
-              <SmallButton text="작성하기" />
-            </CreateButtonArea>
-          </CreateCommentContainer>
-          <Comment comment="님이 예민한거임 ㅋㅋ 뭐노?"></Comment>
-        </CommentContainer>
-      </Container>
-    </BackGround>
+    board && (
+      <BackGround>
+        <Container>
+          <Writer isBoard={true} author={writer} view={views} date={FormatTime(createdAt)} />
+          <TextContainer>
+            <Title>{title}</Title>
+            <ContentBox>
+              <Content>{content}</Content>
+              <DeleteButtonArea>{mine && <SmallButton>삭제하기</SmallButton>}</DeleteButtonArea>
+            </ContentBox>
+          </TextContainer>
+          <CommentContainer>
+            <CountComment>{comments?.length}개의 댓글</CountComment>
+            <CreateCommentContainer onSubmit={handleComment}>
+              <CreateComment
+                placeholder="댓글을 작성하세요"
+                onChange={handleCommentContent}
+                value={commentContent}
+              ></CreateComment>
+              <CreateButtonArea>
+                <SmallButton>작성하기</SmallButton>
+              </CreateButtonArea>
+            </CreateCommentContainer>
+            {board.comments &&
+              board.comments.map((item) => (
+                <Comment key={item.id} data={item}>
+                  {item.content}
+                </Comment>
+              ))}
+          </CommentContainer>
+        </Container>
+      </BackGround>
+    )
   );
 };
 
@@ -92,7 +135,7 @@ const CountComment = styled.p`
   font-size: 25px;
 `;
 
-const CreateCommentContainer = styled.div`
+const CreateCommentContainer = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
