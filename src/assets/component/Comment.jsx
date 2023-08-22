@@ -30,7 +30,7 @@ export default Comment;
 
 const CommentContainer = styled.div`
   display: flex;
-  width: 900px;
+  width: 850px;
   margin: 0 auto;
   flex-direction: column;
   margin-top: 20px;

@@ -7,7 +7,6 @@ import { styled } from 'styled-components';
 import { AxiosBoard } from '../../../api/Board/AxiosBoard.js';
 import { AxiosComment } from '../../../api/Comment/AxiosComment.js';
 import { AxiosDeletePost } from '../../../api/Post/AxiosDeletePost';
-import { AxiosEditPost } from '../../../api/Post/AxiosEditPost.js';
 import { BoardTitleAtom } from '../../component/atom/BoardTitleAtom.jsx';
 import Comment from '../../component/Comment.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
@@ -17,10 +16,6 @@ import { FormatTime } from '../../util/FormatTime.jsx';
 const Post = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { state } = useLocation();
-
-  const { editTitle, editContent, editCategory, isbn, id } = state;
-
   const [locationValue, setLocaitionValue] = useRecoilState(BoardTitleAtom);
   const [board, setBoard] = useState([]);
   const [commentContent, setCommentContent] = useState();
@@ -34,7 +29,7 @@ const Post = () => {
       AxiosBoard({ setBoard, isbn: locationValue.isbn, boardId: locationValue.id });
     }
   }, [location.state]);
-  const { comments, views, createdAt, title, content, mine, writer } = board;
+  const { comments, views, createdAt, title, content, mine, writer, boardCategory, isbn, id } = board;
 
   const handleComment = (event) => {
     setCommentContent();
@@ -57,9 +52,9 @@ const Post = () => {
   const handleGoEdit = () => {
     navigate('/editpost', {
       state: {
-        title: editTitle,
-        content: editContent,
-        boardCategory: editCategory,
+        title,
+        content,
+        boardCategory,
         isbn,
         id,
       },
