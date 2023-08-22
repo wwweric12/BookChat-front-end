@@ -7,7 +7,7 @@ export const AxiosDeletePost = async ({ isbn, boardId }) => {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
-    return alert(response.message);
+    return alert(response.data.message);
   } catch (error) {
     return alert(error);
   }

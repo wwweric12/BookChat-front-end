@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
@@ -14,6 +14,8 @@ import { Writer } from '../../component/Writer.jsx';
 import { FormatTime } from '../../util/FormatTime.jsx';
 
 const Post = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const [locationValue, setLocaitionValue] = useRecoilState(BoardTitleAtom);
   const [board, setBoard] = useState([]);
@@ -42,6 +44,7 @@ const Post = () => {
 
   const handleDeletePost = () => {
     AxiosDeletePost({ boardId: locationValue.id, isbn: locationValue.isbn });
+    navigate(-1);
   };
 
   return (
