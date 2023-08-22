@@ -80,6 +80,7 @@ const BoardListDate = styled.div`
 `;
 
 const BoardListTitle = styled.div`
+  display: flex;
   font-size: 20px;
 `;
 

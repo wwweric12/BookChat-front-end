@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { AxiosBoardCategory } from '../../../api/Board/AxiosBoardCategory.js';
@@ -31,6 +31,7 @@ const BoardList = () => {
     { title: '질문', category: 'QUESTION' },
     { title: '전체', category: 'ALL' },
   ];
+
   const [boardList, setBoardList] = useState([]);
   const [state, setState] = useState({
     SOLUTION: false,
@@ -42,9 +43,9 @@ const BoardList = () => {
 
   const callbackFunction = (data) => {
     setBoardList(data.data.results);
-
     setPageInfo(data.data.pageInfo);
   };
+
   useEffect(() => {
     if (state.ALL) {
       AxiosBoardList({ callbackFunction, location, page: currentPage });
@@ -67,6 +68,11 @@ const BoardList = () => {
 
   const setPage = (newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const handleBoard = (item) => {
+    console.log(item);
+    navigate(`/board/${item.id}`, { state: { id: item.id, isbn: location.state.isbn } });
   };
 
   return (
@@ -95,9 +101,9 @@ const BoardList = () => {
       </SearchContainer>
       <BoardContainer>
         {boardList.map((item) => (
-          <Link to={`/board/${item.id}`} key={item.id}>
+          <button onClick={() => handleBoard(item)} key={item.id}>
             <BoardListComponent data={item} />
-          </Link>
+          </button>
         ))}
       </BoardContainer>
       {count && <Paging page={currentPage} count={count} setPage={setPage} />}

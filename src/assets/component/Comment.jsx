@@ -2,11 +2,12 @@ import { styled } from 'styled-components';
 
 import { Writer } from './Writer.jsx';
 
-const Comment = ({ comment }) => {
+const Comment = ({ children, data }) => {
+  const { commentWriter, createdAt } = data;
   return (
     <CommentContainer>
-      <Writer isBoard={false} />
-      <CommentContent>{comment}</CommentContent>
+      <Writer isBoard={false} author={commentWriter} date={createdAt} />
+      <CommentContent>{children}</CommentContent>
     </CommentContainer>
   );
 };
