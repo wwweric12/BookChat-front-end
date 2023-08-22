@@ -7,6 +7,7 @@ import { styled } from 'styled-components';
 import { AxiosSearchBook } from '../../../api/AxiosSearchBook.js';
 import { BookAtom } from '../../component/atom/BookAtom.jsx';
 import BookList from '../../component/BookList.jsx';
+import Loading from '../../component/Loading.jsx';
 import SearchBar from '../../component/SearchBar.jsx';
 import Paging from '../Paging/Paging.jsx';
 
@@ -14,6 +15,9 @@ const SearchBook = () => {
   const [bookList, setBookList] = useState([]);
   const [searchText, setSearchText] = useRecoilState(BookAtom);
   const [pageInfo, setPageInfo] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const urlQuery = useLocation();
 
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 값 1
   const [count, setCount] = useState(0); // 책 총 개수
@@ -32,6 +36,7 @@ const SearchBook = () => {
       const response = await AxiosSearchBook({ searchQuery, text, page: currentPage });
       setBookList(response?.data?.results);
       setPageInfo(response?.data?.pageInfo);
+      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -39,7 +44,7 @@ const SearchBook = () => {
 
   useEffect(() => {
     fetchData();
-  }, [searchQuery, currentPage]);
+  }, [searchQuery, currentPage, urlQuery.search]);
 
   const setPage = (newPage) => {
     setCurrentPage(newPage);
@@ -58,7 +63,9 @@ const SearchBook = () => {
     navigate(`/books?query=${encodeURIComponent(searchKeyWord)}&searchField=${searchText}`);
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Container>
       <SearchBar onSearch={handleSearch} />
       <ResultTextBox>

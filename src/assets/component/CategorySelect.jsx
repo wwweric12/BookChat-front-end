@@ -12,12 +12,12 @@ const CATEGORY_DATA = {
 };
 
 const CategorySelect = ({ onCategoryChange, test }) => {
-  const [Category, setCategory] = useState('QUESTION');
+  const [Category, setCategory] = useState(test);
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
     setCategory(selectedCategory);
-    onCategoryChange(selectedCategory); // 선택한 카테고리 값을 부모 컴포넌트로 전달
+    onCategoryChange(selectedCategory);
   };
 
   return (

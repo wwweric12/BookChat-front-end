@@ -9,7 +9,6 @@ import SmallButton from '../../component/SmallButton.jsx';
 
 const CreatePost = () => {
   const { state } = useLocation();
-  console.log(state);
 
   const { isbn, title, authors, thumbnail } = state;
 

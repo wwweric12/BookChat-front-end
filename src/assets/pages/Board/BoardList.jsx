@@ -9,6 +9,7 @@ import BoardListComponent from '../../component/BoardListComponent.jsx';
 import BoardListSearch from '../../component/BoardListSearch.jsx';
 import BookList from '../../component/BookList.jsx';
 import CategoryButton from '../../component/CategoryButton.jsx';
+import Loading from '../../component/Loading.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import Paging from '../Paging/Paging.jsx';
 
@@ -17,6 +18,8 @@ const BoardList = () => {
   const location = useLocation();
 
   const { title, isbn, authors, thumbnail } = location.state;
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [count, setCount] = useState(0); // 책 총 개수
   const [pageInfo, setPageInfo] = useState([]);
@@ -46,6 +49,7 @@ const BoardList = () => {
   const callbackFunction = (data) => {
     setBoardList(data.data.results);
     setPageInfo(data.data.pageInfo);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -84,7 +88,9 @@ const BoardList = () => {
     });
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <BoardListConatiner>
       <BookList data={location.state} isSearch={false} />
       <CategoryBox>
