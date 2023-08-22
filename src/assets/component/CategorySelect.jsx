@@ -13,7 +13,6 @@ const CATEGORY_DATA = {
 
 const CategorySelect = ({ onCategoryChange }) => {
   const [Category, setCategory] = useState('QUESTION');
-  console.log(Category);
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;

@@ -15,6 +15,6 @@ export const AxiosComment = async ({ boardId, content, setComment }) => {
     );
     setComment(res.data);
   } catch (error) {
-    console.log(error);
+    alert(error.response.data.cause);
   }
 };

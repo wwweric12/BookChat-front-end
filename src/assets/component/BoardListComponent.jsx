@@ -7,7 +7,7 @@ import { FormatTime } from '../util/FormatTime.jsx';
 import BoardCategory from './BoardCategory.jsx';
 
 const BoardListComponent = ({ data }) => {
-  const { writer, createdAt, title, view, comment, boardCategory } = data;
+  const { writer, createdAt, title, views, commentCounts, boardCategory } = data;
 
   const handleCategory = () => {
     switch (boardCategory) {
@@ -35,11 +35,11 @@ const BoardListComponent = ({ data }) => {
           <BoardDetail>
             <BoardViewBox>
               <img src={Eye} alt="view-icon" />
-              <BoardView>{view}</BoardView>
+              <BoardView>{views}</BoardView>
             </BoardViewBox>
             <BoardCommentBox>
               <img src={BoardChat} alt="Comment-icon" />
-              <BoardComment>{comment}</BoardComment>
+              <BoardComment>{commentCounts}</BoardComment>
             </BoardCommentBox>
           </BoardDetail>
         </BoardDetailContainer>
@@ -55,6 +55,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 15px;
 `;
 const BoardListContainer = styled.div`
   width: 900px;

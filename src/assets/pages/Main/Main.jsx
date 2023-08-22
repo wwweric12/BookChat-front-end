@@ -52,11 +52,12 @@ const Container = styled.div`
 `;
 
 const ChattingImg = styled.img`
-  width: 100px;
-  height: 100px;
+  position: absolute;
+  width: 50px;
+  height: 50px;
   align-self: flex-end;
-  margin-top: 370px;
-  margin-right: 20px;
+  right: 230px;
+  bottom: 20px;
   z-index: 20;
   &:hover {
     cursor: pointer;
@@ -65,7 +66,7 @@ const ChattingImg = styled.img`
 
 const ModalContainer = styled.div`
   position: absolute;
-  bottom: 190px;
-  right: 60px;
+  bottom: 60px;
+  right: 280px;
   z-index: 10;
 `;

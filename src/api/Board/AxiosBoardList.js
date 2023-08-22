@@ -14,7 +14,6 @@ export const AxiosBoardList = async ({ searchKeyWord, callbackFunction, location
 
     callbackFunction(res.data);
   } catch (error) {
-    console.log(error);
     alert(error.response.data.cause);
   }
 };

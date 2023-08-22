@@ -9,7 +9,6 @@ export const AxiosBoard = async ({ setBoard, isbn, boardId }) => {
     });
     setBoard(res.data.data);
   } catch (error) {
-    console.log(error);
     alert(error.response.data.cause);
   }
 };

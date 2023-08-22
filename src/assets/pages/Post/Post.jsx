@@ -17,13 +17,11 @@ const Post = () => {
   const [board, setBoard] = useState([]);
   const [commentContent, setCommentContent] = useState();
   const [comment, setComment] = useState();
-  console.log(board.comments);
 
   useEffect(() => {
     if (location.state) {
       AxiosBoard({ setBoard, isbn: location.state.isbn, boardId: location.state.id });
       setLocaitionValue(location.state);
-      console.log(locationValue);
     } else {
       AxiosBoard({ setBoard, isbn: locationValue.isbn, boardId: locationValue.id });
     }
@@ -78,17 +76,16 @@ const Post = () => {
 export default Post;
 
 const BackGround = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
 `;
 
 const Container = styled.div`
-  width: 900px;
+  width: 850px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 78px;
+  margin: 78px 0;
 `;
 
 const TextContainer = styled.div`
@@ -97,24 +94,26 @@ const TextContainer = styled.div`
 
 const Title = styled.p`
   padding: 10px;
-  width: 900px;
-  font-size: 35px;
+  width: 850px;
+  font-size: 33px;
+  font-weight: 500;
 `;
 
 const ContentBox = styled.div`
-  width: 900px;
+  width: 850px;
+  padding: 20px 0;
 `;
 
 const Content = styled.div`
   padding: 10px;
-  font-size: 25px;
+  font-size: 17px;
   overflow-y: auto;
   height: 460px;
 `;
 
 const DeleteButtonArea = styled.div`
   display: flex;
-  width: 900px;
+  width: 850px;
   height: 82px;
   justify-content: flex-end;
   padding: 22px 29px 22px 0;
@@ -123,7 +122,7 @@ const DeleteButtonArea = styled.div`
 
 const CommentContainer = styled.div`
   display: flex;
-  width: 900px;
+  width: 850px;
   margin-top: 40px;
   flex-direction: column;
 `;
@@ -132,7 +131,8 @@ const CountComment = styled.p`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  font-size: 25px;
+  font-size: 17px;
+  margin-bottom: 20px;
 `;
 
 const CreateCommentContainer = styled.form`
@@ -152,7 +152,8 @@ const CreateComment = styled.textarea`
   border: 1px solid ${({ theme }) => theme.colors.GRAY};
   border-radius: 20px;
   resize: none;
-  padding: 10px;
+  padding: 15px 20px;
+  font-size: 17px;
 `;
 
 const CreateButtonArea = styled.div`
