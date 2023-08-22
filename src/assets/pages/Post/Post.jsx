@@ -13,7 +13,6 @@ import SmallButton from '../../component/SmallButton.jsx';
 import { Writer } from '../../component/Writer.jsx';
 import { FormatTime } from '../../util/FormatTime.jsx';
 
-
 const Post = () => {
   const navigate = useNavigate();
 
@@ -136,16 +135,6 @@ const Content = styled.div`
   height: 460px;
 `;
 
-
-const DeleteButtonArea = styled.div`
-  display: flex;
-  width: 850px;
-  height: 82px;
-  justify-content: flex-end;
-  padding: 22px 29px 22px 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.GRAY};
-`;
-
 const CommentContainer = styled.div`
   display: flex;
   width: 850px;
@@ -188,10 +177,10 @@ const CreateButtonArea = styled.div`
 `;
 const EditDeleteButtonArea = styled.div`
   display: flex;
-  width: 900px;
+  width: 850px;
   height: 82px;
   justify-content: flex-end;
-  padding: 22px 10px 22px 0;
+  padding: 22px 29px 22px 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.GRAY};
 `;
 
