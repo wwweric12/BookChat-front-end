@@ -10,7 +10,7 @@ import { BoardTitleAtom } from '../../component/atom/BoardTitleAtom.jsx';
 import Comment from '../../component/Comment.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import { Writer } from '../../component/Writer.jsx';
-import { FormatTime } from '../../util/FormatTime.jsx';
+
 const Post = () => {
   const location = useLocation();
   const [locationValue, setLocaitionValue] = useRecoilState(BoardTitleAtom);
@@ -42,7 +42,7 @@ const Post = () => {
     board && (
       <BackGround>
         <Container>
-          <Writer isBoard={true} author={writer} view={views} date={FormatTime(createdAt)} />
+          <Writer isBoard={true} author={writer} view={views} date={createdAt} />
           <TextContainer>
             <Title>{title}</Title>
             <ContentBox>
@@ -63,8 +63,8 @@ const Post = () => {
               </CreateButtonArea>
             </CreateCommentContainer>
             {board.comments &&
-              board.comments.map((item) => (
-                <Comment key={item.id} data={item}>
+              board.comments.map((item, index) => (
+                <Comment key={index} data={item} mine={mine} id={locationValue.id}>
                   {item.content}
                 </Comment>
               ))}
