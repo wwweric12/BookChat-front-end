@@ -1,7 +1,6 @@
 import { Axios } from './Axios';
 
 export const AxiosCreatePost = async ({ postTitle, content, boardCategory, isbn }) => {
-  console.log(boardCategory);
   try {
     const response = await Axios.post(
       `/books/${isbn}/boards`,

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { styled } from 'styled-components';
 
 import { AxiosCommentDelete } from '../../api/Comment/AxiosCommentDelete.js';
@@ -13,7 +11,7 @@ const Comment = ({ children, data, id }) => {
   };
 
   const callbackFunction = (res) => {
-    alert(res.message);
+    alert(res.data.message);
     window.location.reload();
   };
 

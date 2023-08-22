@@ -73,7 +73,6 @@ const BoardList = () => {
   };
 
   const handleBoard = (item) => {
-    console.log(item);
     navigate(`/board/${item.id}`, {
       state: {
         editTitle: item.title,
@@ -81,7 +80,7 @@ const BoardList = () => {
         editCategory: item.boardCategory,
         id: item.id,
         isbn: location.state.isbn,
-      }, // 이거 맞음
+      },
     });
   };
 
@@ -130,6 +129,7 @@ const BoardListConatiner = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 50px;
 `;
 
 const CategoryBox = styled.div`
@@ -146,10 +146,11 @@ const SearchContainer = styled.div`
   width: 900px;
   display: flex;
   justify-content: center;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 `;
 
 const BoardContainer = styled.div`
   width: 900px;
   gap: 20px;
+  margin-bottom: 70px;
 `;

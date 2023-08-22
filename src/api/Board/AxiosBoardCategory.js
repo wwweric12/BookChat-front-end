@@ -13,6 +13,6 @@ export const AxiosBoardCategory = async ({ category, callbackFunction, searchKey
     });
     callbackFunction(res.data);
   } catch (error) {
-    console.log(error);
+    alert(error.response.data.cause);
   }
 };

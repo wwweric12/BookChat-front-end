@@ -34,7 +34,7 @@ const Container = styled.div`
   width: 100%;
   height: 116px;
   background-color: ${({ theme }) => theme.colors.WHITE};
-  padding: 33px 360px;
+  padding: 33px 250px;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid ${({ theme }) => theme.colors.BROWN};
@@ -43,7 +43,6 @@ const Container = styled.div`
 const LogoImg = styled.img`
   width: 190px;
   height: 50px;
-
   &:hover {
     cursor: pointer;
   }
