@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
+import { AxiosDeletePost } from '../../../api/AxiosDeletePost.js';
 import { AxiosBoard } from '../../../api/Board/AxiosBoard.js';
 import { AxiosComment } from '../../../api/Comment/AxiosComment.js';
 import { BoardTitleAtom } from '../../component/atom/BoardTitleAtom.jsx';
 import Comment from '../../component/Comment.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import { Writer } from '../../component/Writer.jsx';
+import { FormatTime } from '../../util/FormatTime.jsx';
+
 
 const Post = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const [locationValue, setLocaitionValue] = useRecoilState(BoardTitleAtom);
   const [board, setBoard] = useState([]);
@@ -36,6 +41,12 @@ const Post = () => {
   const handleCommentContent = (e) => {
     setCommentContent(e.target.value);
   };
+
+  const handleDeletePost = () => {
+    AxiosDeletePost({ boardId: locationValue.id, isbn: locationValue.isbn });
+    navigate(-1);
+  };
+
   return (
     board && (
       <BackGround>
@@ -45,7 +56,21 @@ const Post = () => {
             <Title>{title}</Title>
             <ContentBox>
               <Content>{content}</Content>
-              <DeleteButtonArea>{mine && <SmallButton>삭제하기</SmallButton>}</DeleteButtonArea>
+
+              <EditDeleteButtonArea>
+                {mine && (
+                  <>
+                    <EditButtonArea>
+                      <SmallButton small={true}>수정</SmallButton>
+                    </EditButtonArea>
+                    <DeleteButtonArea>
+                      <SmallButton handleClick={handleDeletePost} small={true}>
+                        삭제
+                      </SmallButton>
+                    </DeleteButtonArea>
+                  </>
+                )}
+              </EditDeleteButtonArea>
             </ContentBox>
           </TextContainer>
           <CommentContainer>
@@ -111,6 +136,7 @@ const Content = styled.div`
   height: 460px;
 `;
 
+
 const DeleteButtonArea = styled.div`
   display: flex;
   width: 850px;
@@ -160,3 +186,17 @@ const CreateButtonArea = styled.div`
   align-self: flex-end;
   margin-left: 32px;
 `;
+const EditDeleteButtonArea = styled.div`
+  display: flex;
+  width: 900px;
+  height: 82px;
+  justify-content: flex-end;
+  padding: 22px 10px 22px 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.GRAY};
+`;
+
+const DeleteButtonArea = styled.div`
+  margin-left: 15px;
+`;
+
+const EditButtonArea = styled.div``;
