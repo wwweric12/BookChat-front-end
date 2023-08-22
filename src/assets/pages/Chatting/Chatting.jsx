@@ -1,12 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { StompJs } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 import { styled } from 'styled-components';
 
 import ChatParticipant from '../../component/ChatParticipant.jsx';
 import Search from '../../images/Search.svg';
 import Send from '../../images/Send.svg';
 import User from '../../images/User.svg';
+
 const Chatting = ({ title, author }) => {
+  const connect = () => {
+    client.current = new Stomp.Client({
+      webSocketFactory: () => new SockJS('/websocket-stomp'),
+      onConnect: () => {
+        console.log('success');
+        subscribe();
+        publishOnWait();
+      },
+    });
+    client.current.activate();
+  };
+
   const [chatList, setChatList] = useState([]);
   const [inputText, setInputText] = useState('');
   const scrollRef = useRef();
