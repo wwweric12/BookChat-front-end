@@ -32,7 +32,7 @@ const SearchBook = () => {
       const response = await AxiosSearchBook({ searchQuery, text, page: currentPage });
       setBookList(response?.data?.results);
       setPageInfo(response?.data?.pageInfo);
-      console.log(bookList);
+      console.log(pageInfo);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -51,7 +51,7 @@ const SearchBook = () => {
     setIndexOfLastBook(currentPage * bookPerPage);
     setIndexOfFirstBook(indexOfLastBook - bookPerPage);
     setCurrentBook(bookList?.slice(indexOfFirstBook, indexOfLastBook));
-  }, [currentPage, indexOfLastBook, indexOfFirstBook, bookList, bookPerPage]);
+  }, [count, currentPage, indexOfLastBook, indexOfFirstBook, bookList, bookPerPage]);
 
   const navigate = useNavigate();
 
@@ -71,9 +71,7 @@ const SearchBook = () => {
           <BookList data={item} key={index} isSearch={true} />
         ))}
       </ResultBookList>
-      <PagingArea>
-        <Paging page={currentPage} count={count} setPage={setPage} />
-      </PagingArea>
+      <PagingArea>{count && <Paging page={currentPage} count={count} setPage={setPage} />}</PagingArea>
     </Container>
   );
 };

@@ -4,33 +4,28 @@ import { styled } from 'styled-components';
 
 import Option from './Option.jsx';
 
-const CATEGORY_DATA = [
-  {
-    text: '문제풀이',
-  },
-  {
-    text: '개념풀이',
-  },
-  {
-    text: '오타/오역',
-  },
-  {
-    text: '질문',
-  },
-];
+const CATEGORY_DATA = {
+  문제풀이: 'SOLUTION',
+  개념풀이: 'CONCEPT',
+  '오타/오역': 'TYPO',
+  질문: 'QUESTION',
+};
 
-const CategorySelect = () => {
-  const [Category, setCategory] = useState('질문');
+const CategorySelect = ({ onCategoryChange }) => {
+  const [Category, setCategory] = useState('QUESTION');
+  console.log(Category);
 
   const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+    const selectedCategory = event.target.value;
+    setCategory(selectedCategory);
+    onCategoryChange(selectedCategory); // 선택한 카테고리 값을 부모 컴포넌트로 전달
   };
 
   return (
     <Container>
       <SelectBox value={Category} onChange={handleCategoryChange}>
-        {CATEGORY_DATA.map((item) => (
-          <Option text={item.text} key={item.text} />
+        {Object.keys(CATEGORY_DATA).map((item) => (
+          <Option text={item} value={CATEGORY_DATA[item]} key={item} />
         ))}
       </SelectBox>
     </Container>

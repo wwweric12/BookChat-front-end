@@ -16,6 +16,8 @@ const BoardList = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { title, isbn, authors, thumbnail } = location.state;
+
   const [count, setCount] = useState(0); // 책 총 개수
   const [pageInfo, setPageInfo] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 값 1
@@ -63,7 +65,7 @@ const BoardList = () => {
   }, [currentPage, indexOfLastBook, indexOfFirstBook, boardList, bookPerPage]);
 
   const handleWrite = () => {
-    navigate('/createpost');
+    navigate('/createpost', { state: { title, isbn, authors, thumbnail } });
   };
 
   const setPage = (newPage) => {
