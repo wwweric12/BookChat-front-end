@@ -1,12 +1,28 @@
+import { useState } from 'react';
+
 import { styled } from 'styled-components';
+
+import { AxiosCommentDelete } from '../../api/Comment/AxiosCommentDelete.js';
 
 import { Writer } from './Writer.jsx';
 
-const Comment = ({ children, data }) => {
-  const { commentWriter, createdAt } = data;
+const Comment = ({ children, data, id }) => {
+  const { commentWriter, createdAt, mine, commentId } = data;
+  const handleDelete = () => {
+    AxiosCommentDelete({ boardId: id, commentId, callbackFunction });
+  };
+
+  const callbackFunction = (res) => {
+    alert(res.message);
+    window.location.reload();
+  };
+
   return (
     <CommentContainer>
-      <Writer isBoard={false} author={commentWriter} date={createdAt} />
+      <WriterContainer>
+        <Writer isBoard={false} author={commentWriter} date={createdAt} />
+        {mine && <CommentDelete onClick={handleDelete}>삭제</CommentDelete>}
+      </WriterContainer>
       <CommentContent>{children}</CommentContent>
     </CommentContainer>
   );
@@ -26,4 +42,13 @@ const CommentContent = styled.div`
   font-size: 16px;
   padding: 22px 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.GRAY};
+`;
+
+const CommentDelete = styled.button`
+  white-space: nowrap;
+  margin-right: 20px;
+`;
+
+const WriterContainer = styled.div`
+  display: flex;
 `;
