@@ -1,14 +1,12 @@
 import { styled } from 'styled-components';
 
-const ChatParticipant = ({ children }) => {
-  const DATA = ['rbgur', '경', 'ㅅ규', '정', '호', '이', '짜', 'ㅋㅋ', '123', '123'];
+const ChatParticipant = ({ children, onlineUser }) => {
+  console.log(onlineUser);
   return (
     <ParticipantContainer>
       <ParticipantTitle>{children}</ParticipantTitle>
       <ParticipantContentBox>
-        {DATA.map((data) => (
-          <ParticipantContent>{data}</ParticipantContent>
-        ))}
+        {onlineUser && onlineUser.map((data) => <ParticipantContent>{data}</ParticipantContent>)}
       </ParticipantContentBox>
     </ParticipantContainer>
   );

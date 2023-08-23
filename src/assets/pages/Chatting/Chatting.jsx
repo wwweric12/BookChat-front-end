@@ -21,10 +21,14 @@ const Chatting = ({ title, author, isbn }) => {
   const [clientData, setClientData] = useState(null);
   const [inputText, setInputText] = useState('');
   const [myId, setMyId] = useState();
+  const [onlineUser, setOnlineUser] = useState();
 
   useEffect(() => {
     AxiosChat({ isbn: location.state.isbn, callbackFunction });
     if (location.state) {
+      window.onbeforeunload = function (e) {
+        return disconnect();
+      };
       const connect = () => {
         client = Stomp.over(() => {
           return new SockJs(`${process.env.REACT_APP_BASE_URL}/websocket-stomp`);
@@ -51,7 +55,11 @@ const Chatting = ({ title, author, isbn }) => {
       };
       connect();
     }
-  }, [location.state]);
+    return () => {
+      disconnect();
+      window.onbeforeunload = null;
+    };
+  }, []);
 
   useEffect(() => {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -61,6 +69,7 @@ const Chatting = ({ title, author, isbn }) => {
     if (message.body) {
       const msg = JSON.parse(message.body);
       console.log('message exits');
+      setOnlineUser(msg.onlineUserList);
       setIncomingMessageData((prevData) => [
         ...prevData,
         { sessionId: msg.sessionId, sender: msg.sender, message: msg.message },
@@ -68,6 +77,16 @@ const Chatting = ({ title, author, isbn }) => {
     } else {
       console.log('no message');
     }
+  };
+  const disconnect = () => {
+    client.send(
+      '/pub/chat/quit',
+      {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+      JSON.stringify({ roomId: location.state.isbn }),
+    );
+    console.log('채팅이 종료되었습니다.');
   };
 
   const handleSubmit = (e) => {
@@ -138,7 +157,7 @@ const Chatting = ({ title, author, isbn }) => {
           <SearchInput placeholder="검색" />
         </SearchContainer>
         <ContentBox>
-          <ChatParticipant>현재 참여자</ChatParticipant>
+          <ChatParticipant onlineUser={onlineUser}>현재 참여자</ChatParticipant>
           <ChatParticipant>참여했던 사람</ChatParticipant>
         </ContentBox>
       </ParticipantContainer>
