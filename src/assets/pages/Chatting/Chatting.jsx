@@ -5,13 +5,14 @@ import { useLocation } from 'react-router-dom';
 import * as SockJs from 'sockjs-client';
 import { styled } from 'styled-components';
 
+import { AxiosBeforeChat } from '../../../api/Chat/AxiosBeforeChat.js';
 import { AxiosChat } from '../../../api/Chat/AxiosChat.js';
 import ChatParticipant from '../../component/ChatParticipant.jsx';
 import Search from '../../images/Search.svg';
 import Send from '../../images/Send.svg';
 import User from '../../images/User.svg';
 
-const Chatting = ({ title, author, isbn }) => {
+const Chatting = () => {
   // CONNECT
   let client = useRef();
   const scrollRef = useRef();
@@ -21,10 +22,11 @@ const Chatting = ({ title, author, isbn }) => {
   const [clientData, setClientData] = useState(null);
   const [inputText, setInputText] = useState('');
   const [myId, setMyId] = useState();
-  const [onlineUser, setOnlineUser] = useState();
+  const [onlineUser, setOnlineUser] = useState([null]);
 
   useEffect(() => {
     AxiosChat({ isbn: location.state.isbn, callbackFunction });
+    AxiosBeforeChat({ isbn: location.state.isbn, beforeFunction });
     if (location.state) {
       window.onbeforeunload = function (e) {
         return disconnect();
@@ -111,6 +113,12 @@ const Chatting = ({ title, author, isbn }) => {
     console.log(res);
   };
 
+  const beforeFunction = (res) => {
+    res.map((item) => {
+      setIncomingMessageData((prevData) => [...prevData, { sessionId: 1, sender: item.sender, message: item.content }]);
+    });
+  };
+
   const handleIsMine = (item) => {
     if (item.sessionId === myId) {
       return true;
@@ -157,7 +165,7 @@ const Chatting = ({ title, author, isbn }) => {
           <SearchInput placeholder="검색" />
         </SearchContainer>
         <ContentBox>
-          <ChatParticipant onlineUser={onlineUser}>현재 참여자</ChatParticipant>
+          {onlineUser && <ChatParticipant onlineUser={onlineUser}>현재 참여자</ChatParticipant>}
           <ChatParticipant>참여했던 사람</ChatParticipant>
         </ContentBox>
       </ParticipantContainer>
