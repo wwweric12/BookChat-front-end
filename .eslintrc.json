@@ -14,7 +14,7 @@
   },
   "plugins": ["react", "prettier", "import"],
   "rules": {
-    "import/no-unresolved": [2, { "caseSensitive": false }],
+    "import/no-unresolved": "off",
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": 0,
     "react/jsx-filename-extension": 0,
@@ -45,7 +45,6 @@
         }
       }
     ],
-
     "import/no-extraneous-dependencies": [
       "error",
       {
