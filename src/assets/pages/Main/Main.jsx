@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { styled } from 'styled-components';
 
+import { AxiosParticipant } from '../../../api/AxiosParticipant.js';
 import { BookAtom } from '../../component/atom/BookAtom.jsx';
 import ChatModal from '../../component/Modal/ChatModal.jsx';
 import SearchBar from '../../component/SearchBar.jsx';
@@ -15,13 +16,22 @@ const Main = () => {
   const [searchText, setSearchText] = useRecoilState(BookAtom);
 
   const [showModal, setShowModal] = useState(false);
-
+  const [participantChat, setParticipantChat] = useState([]);
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
       navigate('/login');
       alert('로그인이 필요합니다');
+    } else {
+      AxiosParticipant({ callbackFunction });
     }
   }, []);
+
+  const callbackFunction = (res) => {
+    const chatlist = res.data.filter((room, index, array) => {
+      return array.findIndex((item) => item.isbn === room.isbn) === index;
+    });
+    setParticipantChat(chatlist);
+  };
 
   const handleSearch = (searchKeyWord) => {
     navigate(`/books?query=${searchKeyWord}&searchField=${searchText}`);
@@ -35,7 +45,7 @@ const Main = () => {
     <Container>
       <SearchBar onSearch={handleSearch} />
       <ChattingImg src={showModal ? ChatFocus : Chat} alt="채팅 이미지" onClick={handleModal} />
-      <ModalContainer>{showModal && <ChatModal />}</ModalContainer>
+      <ModalContainer>{showModal && <ChatModal participants={participantChat} />}</ModalContainer>
     </Container>
   );
 };

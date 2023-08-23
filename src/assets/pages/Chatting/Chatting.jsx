@@ -23,6 +23,7 @@ const Chatting = () => {
   const [inputText, setInputText] = useState('');
   const [myId, setMyId] = useState();
   const [onlineUser, setOnlineUser] = useState([null]);
+  const [participant, setParticipant] = useState([null]);
 
   useEffect(() => {
     AxiosChat({ isbn: location.state.isbn, callbackFunction });
@@ -72,6 +73,7 @@ const Chatting = () => {
       const msg = JSON.parse(message.body);
       console.log('message exits');
       setOnlineUser(msg.onlineUserList);
+      setParticipant(msg.visitedUserList);
       setIncomingMessageData((prevData) => [
         ...prevData,
         { sessionId: msg.sessionId, sender: msg.sender, message: msg.message },
@@ -165,8 +167,8 @@ const Chatting = () => {
           <SearchInput placeholder="검색" />
         </SearchContainer>
         <ContentBox>
-          {onlineUser && <ChatParticipant onlineUser={onlineUser}>현재 참여자</ChatParticipant>}
-          <ChatParticipant>참여했던 사람</ChatParticipant>
+          {onlineUser && <ChatParticipant user={onlineUser}>현재 참여자</ChatParticipant>}
+          {participant && <ChatParticipant user={participant}>참여했던 사람</ChatParticipant>}
         </ContentBox>
       </ParticipantContainer>
     </Container>

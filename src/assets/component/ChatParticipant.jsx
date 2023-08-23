@@ -1,11 +1,11 @@
 import { styled } from 'styled-components';
 
-const ChatParticipant = ({ children, onlineUser }) => {
+const ChatParticipant = ({ children, user }) => {
   return (
     <ParticipantContainer>
       <ParticipantTitle>{children}</ParticipantTitle>
       <ParticipantContentBox>
-        {onlineUser && onlineUser.map((data) => <ParticipantContent>{data}</ParticipantContent>)}
+        {user && Array.from(new Set(user)).map((data) => <ParticipantContent>{data}</ParticipantContent>)}
       </ParticipantContentBox>
     </ParticipantContainer>
   );
@@ -18,6 +18,10 @@ const ParticipantContainer = styled.div`
   height: 300px;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ParticipantTitle = styled.div`
