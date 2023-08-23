@@ -70,7 +70,7 @@ const Post = () => {
             <ContentBox>
               <Content>
                 {content}
-                <ImageContent src={imageUrl} alt="img" />
+                {imageUrl && <ImageContent src={imageUrl} alt="img" />}
               </Content>
               <EditDeleteButtonArea>
                 {mine && (
@@ -148,6 +148,7 @@ const ContentBox = styled.div`
 
 const Content = styled.div`
   width: 850px;
+  min-height: 500px;
   padding: 10px;
   font-size: 17px;
   overflow-y: auto;
