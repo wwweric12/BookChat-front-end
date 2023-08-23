@@ -73,7 +73,9 @@ const Chatting = () => {
       const msg = JSON.parse(message.body);
       console.log('message exits');
       setOnlineUser(msg.onlineUserList);
-      setParticipant(msg.visitedUserList);
+      if (msg.visitedUserList) {
+        setParticipant(msg.visitedUserList);
+      }
       setIncomingMessageData((prevData) => [
         ...prevData,
         { sessionId: msg.sessionId, sender: msg.sender, message: msg.message },
