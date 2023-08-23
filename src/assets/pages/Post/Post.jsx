@@ -11,7 +11,6 @@ import { BoardTitleAtom } from '../../component/atom/BoardTitleAtom.jsx';
 import Comment from '../../component/Comment.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 import { Writer } from '../../component/Writer.jsx';
-import { FormatTime } from '../../util/FormatTime.jsx';
 
 const Post = () => {
   const navigate = useNavigate();
@@ -29,8 +28,8 @@ const Post = () => {
       AxiosBoard({ setBoard, isbn: locationValue.isbn, boardId: locationValue.id });
     }
   }, [location.state]);
-  const { comments, views, createdAt, title, content, mine, writer, boardCategory, isbn, id } = board;
-
+  const { comments, views, createdAt, title, content, mine, writer, boardCategory, isbn, id, imageUrl } = board;
+  console.log(board);
   const handleComment = (event) => {
     setCommentContent();
     AxiosComment({ boardId: locationValue.id, content: commentContent, setComment });
@@ -69,8 +68,10 @@ const Post = () => {
           <TextContainer>
             <Title>{title}</Title>
             <ContentBox>
-              <Content>{content}</Content>
-
+              <Content>
+                {content}
+                <ImageContent src={imageUrl} alt="img" />
+              </Content>
               <EditDeleteButtonArea>
                 {mine && (
                   <>
@@ -146,10 +147,18 @@ const ContentBox = styled.div`
 `;
 
 const Content = styled.div`
+  width: 850px;
   padding: 10px;
   font-size: 17px;
   overflow-y: auto;
-  height: 460px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ImageContent = styled.img`
+  width: 500px;
+  height: 500px;
+  margin-top: 50px;
 `;
 
 const CommentContainer = styled.div`

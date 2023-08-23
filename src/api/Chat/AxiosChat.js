@@ -17,7 +17,6 @@ export const AxiosChat = async ({ isbn, callbackFunction }) => {
     );
     callbackFunction(res);
   } catch (error) {
-    console.log(error);
-    // alert(error.response.data.cause);
+    alert(error.response.data.cause);
   }
 };
