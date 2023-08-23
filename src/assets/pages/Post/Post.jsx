@@ -135,7 +135,7 @@ const TextContainer = styled.div`
 
 const Title = styled.p`
   padding: 10px;
-  width: 850px;
+  width: 100%;
   font-size: 33px;
   font-weight: 500;
 `;
