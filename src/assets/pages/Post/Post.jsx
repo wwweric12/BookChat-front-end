@@ -157,7 +157,7 @@ const Content = styled.div`
 `;
 
 const ImageContent = styled.img`
-  width: 500px;
+  width: 800px;
   height: 500px;
   margin-top: 50px;
 `;

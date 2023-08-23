@@ -32,7 +32,7 @@ const BoardList = () => {
   const CATEGORIES = [
     { title: '문제풀이', category: 'SOLUTION' },
     { title: '개념풀이', category: 'CONCEPT' },
-    { title: '오타오역', category: 'TYPO' },
+    { title: '오타/오역', category: 'TYPO' },
     { title: '질문', category: 'QUESTION' },
     { title: '전체', category: 'ALL' },
   ];
