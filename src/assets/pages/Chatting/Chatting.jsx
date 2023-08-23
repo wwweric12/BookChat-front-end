@@ -162,10 +162,6 @@ const Chatting = () => {
         </ChatForm>
       </ChatContainer>
       <ParticipantContainer>
-        <SearchContainer>
-          <SearchImg src={Search} />
-          <SearchInput placeholder="검색" />
-        </SearchContainer>
         <ContentBox>
           {onlineUser && <ChatParticipant user={onlineUser}>현재 참여자</ChatParticipant>}
           {participant && <ChatParticipant user={participant}>참여했던 사람</ChatParticipant>}
@@ -303,27 +299,6 @@ const ParticipantContainer = styled.div`
   border: 3px solid ${({ theme }) => theme.colors.MINT100};
   border-left: 0px;
   border-radius: 0 20px 20px 0;
-`;
-
-const SearchContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 64px;
-  border: none;
-  padding: 0 10px;
-`;
-
-const SearchImg = styled.img`
-  width: 30px;
-  height: 30px;
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  border: none;
-  padding: 0 10px;
 `;
 
 const ContentBox = styled.div`
