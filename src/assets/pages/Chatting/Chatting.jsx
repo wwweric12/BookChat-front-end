@@ -1,38 +1,83 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { StompJs } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+import { useLocation } from 'react-router-dom';
+import * as SockJs from 'sockjs-client';
 import { styled } from 'styled-components';
 
+import { AxiosChat } from '../../../api/Chat/AxiosChat.js';
 import ChatParticipant from '../../component/ChatParticipant.jsx';
 import Search from '../../images/Search.svg';
 import Send from '../../images/Send.svg';
 import User from '../../images/User.svg';
 
-const Chatting = ({ title, author }) => {
-  const connect = () => {
-    client.current = new Stomp.Client({
-      webSocketFactory: () => new SockJS('/websocket-stomp'),
-      onConnect: () => {
-        console.log('success');
-        subscribe();
-        publishOnWait();
-      },
-    });
-    client.current.activate();
-  };
-
-  const [chatList, setChatList] = useState([]);
-  const [inputText, setInputText] = useState('');
+const Chatting = ({ title, author, isbn }) => {
+  // CONNECT
+  let client = useRef();
   const scrollRef = useRef();
+
+  const location = useLocation();
+  const [incomingMessageData, setIncomingMessageData] = useState([]);
+  const [clientData, setClientData] = useState(null);
+  const [inputText, setInputText] = useState('');
+  const [myId, setMyId] = useState();
+
+  useEffect(() => {
+    AxiosChat({ isbn: location.state.isbn, callbackFunction });
+    if (location.state) {
+      const connect = () => {
+        client = Stomp.over(() => {
+          return new SockJs(`${process.env.REACT_APP_BASE_URL}/websocket-stomp`);
+        });
+        client.connect(
+          {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+          (message) => {
+            setMyId(message.headers['user-name']);
+            console.log('CONNECT success! next step SUBSCRIBE');
+            client.subscribe(`/sub/chat/rooms/${location.state.isbn}`, getMessage);
+            client.send(
+              '/pub/chat/enter',
+              { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+              JSON.stringify({ roomId: location.state.isbn }),
+            );
+          },
+          (frame) => {
+            console.log('CONNECT error:' + frame);
+          },
+        );
+        setClientData(client);
+      };
+      connect();
+    }
+  }, [location.state]);
+
   useEffect(() => {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [chatList]);
+  }, [incomingMessageData]);
+
+  const getMessage = (message) => {
+    if (message.body) {
+      const msg = JSON.parse(message.body);
+      console.log('message exits');
+      setIncomingMessageData((prevData) => [
+        ...prevData,
+        { sessionId: msg.sessionId, sender: msg.sender, message: msg.message },
+      ]);
+    } else {
+      console.log('no message');
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputText.trim() !== '') {
-      setChatList((prev) => [...prev, inputText]);
+      clientData.send(
+        '/pub/chat/message',
+        { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+        JSON.stringify({ roomId: location.state.isbn, message: inputText, sessionId: myId }),
+      );
       setInputText('');
     } else {
       setInputText('');
@@ -43,22 +88,42 @@ const Chatting = ({ title, author }) => {
     setInputText(e.target.value);
   };
 
+  const callbackFunction = (res) => {
+    console.log(res);
+  };
+
+  const handleIsMine = (item) => {
+    if (item.sessionId === myId) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <Container>
       <ChatContainer>
         <ChatHeader>
-          <ChatTitle>5공학관 호이짜</ChatTitle>
-          <ChatAuthor>경규혁</ChatAuthor>
+          <ChatTitle>{location.state.title}</ChatTitle>
+          <ChatAuthor>{location.state.authors}</ChatAuthor>
         </ChatHeader>
         <ChatContent ref={scrollRef}>
-          {chatList.map((text, index) => {
-            return (
-              <ChatBox key={index} $isMine={false}>
-                {/* {!$isMine && <UserImg src={User} />} */}
-                <MessageText $isMine={false}>{text}</MessageText>
-              </ChatBox>
-            );
-          })}
+          {incomingMessageData &&
+            incomingMessageData.map((item, index) => {
+              if (item.sessionId === '1') {
+                return <WelcomeMessage>{item.message}</WelcomeMessage>;
+              } else {
+                return (
+                  <ChatBox key={index} $isMine={handleIsMine(item)}>
+                    {!handleIsMine(item) && <UserImg src={User} />}
+                    <ChatMessageBox>
+                      {!handleIsMine(item) && <ChatSender>{item.sender}</ChatSender>}
+                      <MessageText $isMine={handleIsMine(item)}>{item.message}</MessageText>
+                    </ChatMessageBox>
+                  </ChatBox>
+                );
+              }
+            })}
         </ChatContent>
         <ChatForm onSubmit={handleSubmit}>
           <ChatInput placeholder="채팅을 입력하세요" onChange={handleChange} value={inputText} />
@@ -101,27 +166,34 @@ const ChatContainer = styled.div`
 const ChatHeader = styled.div`
   width: 100%;
   height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border-radius: 20px 0 0 0;
   padding: 0 20px;
   background-color: ${({ theme }) => theme.colors.MINT50};
 `;
 
 const ChatTitle = styled.div`
-  width: 100%;
+  width: 500px;
   height: 50px;
+  white-space: nowrap;
   color: ${({ theme }) => theme.colors.WHITE};
-  display: flex;
-  align-items: center;
   font-size: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 10px;
 `;
 
 const ChatAuthor = styled.div`
-  width: 100%;
+  width: 500px;
   height: 50px;
-  display: flex;
-  align-items: center;
+  white-space: nowrap;
+  margin-top: 10px;
   font-size: 15px;
   color: ${({ theme }) => theme.colors.WHITE};
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ChatContent = styled.div`
@@ -133,6 +205,16 @@ const ChatContent = styled.div`
   }
 `;
 
+const WelcomeMessage = styled.div`
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.GRAY};
+  padding: 10px 20px;
+  font-size: 15px;
+`;
+
 const ChatBox = styled.div`
   width: 100%;
   display: flex;
@@ -141,10 +223,19 @@ const ChatBox = styled.div`
   padding: 10px 20px;
 `;
 
+const ChatMessageBox = styled.div``;
+
+const ChatSender = styled.div`
+  width: 100px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+`;
+
 const UserImg = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 60px;
   align-self: baseline;
+  margin-right: 10px;
 `;
 
 const MessageText = styled.div`
