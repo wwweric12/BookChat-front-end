@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 
 const ChatParticipant = ({ children, onlineUser }) => {
-  console.log(onlineUser);
   return (
     <ParticipantContainer>
       <ParticipantTitle>{children}</ParticipantTitle>
