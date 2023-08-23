@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
+import { Axios } from '../../../api/Axios.js';
 import { AxiosCreatePost } from '../../../api/AxiosCreatePost.js';
 import CategorySelect from '../../component/CategorySelect.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 
 const CreatePost = () => {
   const { state } = useLocation();
+  const imageInput = useRef();
+  const [image, setImage] = useState();
 
   const { isbn, title, authors, thumbnail } = state;
 
@@ -35,6 +38,27 @@ const CreatePost = () => {
     setBoardCategory(selectedCategory); // 선택한 카테고리 값을 상태로 업데이트
   };
 
+  const saveFileImage = async (e) => {
+    try {
+      const formData = new FormData(); // formData 생성
+      formData.append('image', e.target.files[0]); // 이미지 파일 값 할당
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      };
+      const response = await Axios.post('/images', formData, config);
+      setImage(response.data.data.imageUrl);
+      console.log(response.data.data.imageUrl);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleClick = () => {
+    imageInput.current.click();
+  };
+
   return (
     <BackGround>
       <Container>
@@ -48,12 +72,24 @@ const CreatePost = () => {
         </TitleContainer>
         <ContentContainer>
           <ContentText>본문</ContentText>
+          <FileContainer>
+            <FileButton onClick={handleClick}>
+              <FileInput
+                type="file"
+                accept="image/jpg, image/jpeg, image/png"
+                ref={imageInput}
+                onChange={saveFileImage}
+              />
+              이미지 업로드
+            </FileButton>
+            {image && <FileImg src={image} alt="img" />}
+          </FileContainer>
           <ContentInput placeholder="본문을 입력해주세요." onChange={onChangeContent} />
         </ContentContainer>
         <ButtonContainer>
           <SmallButton
             handleClick={() => {
-              AxiosCreatePost({ postTitle, content, isbn, boardCategory });
+              AxiosCreatePost({ postTitle, content, isbn, boardCategory, imageUrl: image });
               goBoardList();
             }}
           >
@@ -75,7 +111,7 @@ const BackGround = styled.div`
 
 const Container = styled.div`
   width: 954px;
-  height: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,8 +151,30 @@ const TitleInput = styled.input`
 
 const ContentContainer = styled.div`
   width: 740px;
-  height: 314px;
   margin-bottom: 50px;
+`;
+
+const FileContainer = styled.div`
+  display: flex;
+  height: 120px;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const FileImg = styled.img`
+  width: 120px;
+  height: 120px;
+`;
+const FileButton = styled.button`
+  width: 150px;
+  height: 50px;
+  border: 1px solid ${({ theme }) => theme.colors.MINT50};
+  border-radius: 10px;
+  margin-right: 10px;
+`;
+
+const FileInput = styled.input`
+  display: none;
 `;
 
 const ContentText = styled.p`
@@ -133,6 +191,10 @@ const ContentInput = styled.textarea`
   border-radius: 20px;
   margin-bottom: 30px;
   border: 1px solid ${({ theme }) => theme.colors.BLACK};
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ButtonContainer = styled.div`

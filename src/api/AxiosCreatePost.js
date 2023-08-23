@@ -1,6 +1,6 @@
 import { Axios } from './Axios';
 
-export const AxiosCreatePost = async ({ postTitle, content, boardCategory, isbn }) => {
+export const AxiosCreatePost = async ({ postTitle, content, boardCategory, isbn, imageUrl }) => {
   try {
     const response = await Axios.post(
       `/books/${isbn}/boards`,
@@ -8,6 +8,7 @@ export const AxiosCreatePost = async ({ postTitle, content, boardCategory, isbn 
         title: postTitle,
         content,
         boardCategory,
+        imageUrl,
       },
       {
         headers: {
@@ -17,6 +18,6 @@ export const AxiosCreatePost = async ({ postTitle, content, boardCategory, isbn 
     );
     return response.data;
   } catch (error) {
-    return alert(error);
+    return console.log(error);
   }
 };
