@@ -109,7 +109,6 @@ const BackGround = styled.div`
 
 const Container = styled.div`
   width: 954px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -149,7 +148,6 @@ const TitleInput = styled.input`
 
 const ContentContainer = styled.div`
   width: 740px;
-  height: 314px;
   margin-bottom: 50px;
 `;
 
@@ -167,6 +165,10 @@ const ContentInput = styled.textarea`
   border-radius: 20px;
   margin-bottom: 30px;
   border: 1px solid ${({ theme }) => theme.colors.BLACK};
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ButtonContainer = styled.div`
