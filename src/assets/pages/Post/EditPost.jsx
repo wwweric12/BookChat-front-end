@@ -25,10 +25,10 @@ const EditPost = () => {
     setContent(e.target.value);
   };
 
-  const [boardCategory, setBoardCategory] = useState(category); // 초기값 설정
+  const [boardCategory, setBoardCategory] = useState(category);
 
   const onCategoryChange = (selectedCategory) => {
-    setBoardCategory(selectedCategory); // 선택한 카테고리 값을 상태로 업데이트
+    setBoardCategory(selectedCategory);
   };
 
   return (

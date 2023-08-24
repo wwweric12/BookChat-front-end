@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 
 const LargeButton = ({ text }) => {
-  // <LargeButton text="로그인"/> 이런식으로 사용하면 됩니다.
   return <Button>{text}</Button>;
 };
 

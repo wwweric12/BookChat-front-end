@@ -32,16 +32,16 @@ const CreatePost = () => {
     navigate(`/boardlist/${isbn}`, { state: { title, isbn, authors, thumbnail } });
   };
 
-  const [boardCategory, setBoardCategory] = useState('QUESTION'); // 초기값 설정
+  const [boardCategory, setBoardCategory] = useState('QUESTION');
 
   const onCategoryChange = (selectedCategory) => {
-    setBoardCategory(selectedCategory); // 선택한 카테고리 값을 상태로 업데이트
+    setBoardCategory(selectedCategory);
   };
 
   const saveFileImage = async (e) => {
     try {
-      const formData = new FormData(); // formData 생성
-      formData.append('image', e.target.files[0]); // 이미지 파일 값 할당
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
 
       const config = {
         headers: {
@@ -50,7 +50,6 @@ const CreatePost = () => {
       };
       const response = await Axios.post('/images', formData, config);
       setImage(response.data.data.imageUrl);
-      console.log(response.data.data.imageUrl);
     } catch (error) {
       console.log(error);
     }

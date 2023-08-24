@@ -13,7 +13,6 @@ import Send from '../../images/Send.svg';
 import User from '../../images/User.svg';
 
 const Chatting = () => {
-  // CONNECT
   let client = useRef();
   const scrollRef = useRef();
 
@@ -42,7 +41,6 @@ const Chatting = () => {
           },
           (message) => {
             setMyId(message.headers['user-name']);
-            console.log('CONNECT success! next step SUBSCRIBE');
             client.subscribe(`/sub/chat/rooms/${location.state.isbn}`, getMessage);
             client.send(
               '/pub/chat/enter',
@@ -71,7 +69,6 @@ const Chatting = () => {
   const getMessage = (message) => {
     if (message.body) {
       const msg = JSON.parse(message.body);
-      console.log('message exits');
       setOnlineUser(msg.onlineUserList);
       if (msg.visitedUserList) {
         setParticipant(msg.visitedUserList);
@@ -92,7 +89,6 @@ const Chatting = () => {
       },
       JSON.stringify({ roomId: location.state.isbn }),
     );
-    console.log('채팅이 종료되었습니다.');
   };
 
   const handleSubmit = (e) => {

@@ -29,7 +29,6 @@ const Post = () => {
     }
   }, [location.state]);
   const { comments, views, createdAt, title, content, mine, writer, boardCategory, isbn, id, imageUrl } = board;
-  console.log(board);
   const handleComment = (event) => {
     setCommentContent();
     AxiosComment({ boardId: locationValue.id, content: commentContent, setComment });
