@@ -55,6 +55,7 @@ const Post = () => {
         boardCategory,
         isbn,
         id,
+        imageUrl,
       },
     });
   };

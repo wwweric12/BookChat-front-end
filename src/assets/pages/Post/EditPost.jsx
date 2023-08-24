@@ -1,18 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
+import { Axios } from '../../../api/Axios.js';
 import { AxiosEditPost } from '../../../api/Post/AxiosEditPost.js';
 import CategorySelect from '../../component/CategorySelect.jsx';
 import SmallButton from '../../component/SmallButton.jsx';
 
 const EditPost = () => {
   const { state } = useLocation();
-
+  const imageInput = useRef();
   const navigate = useNavigate();
+  const [image, setImage] = useState();
 
-  const { title, boardCategory: category, content: detail, isbn, id } = state;
+  useEffect(() => {
+    setImage(imageUrl);
+  }, []);
+
+  const { title, boardCategory: category, content: detail, isbn, id, imageUrl } = state;
 
   const [postTitle, setPostTitle] = useState('');
   const [content, setContent] = useState('');
@@ -31,6 +37,26 @@ const EditPost = () => {
     setBoardCategory(selectedCategory);
   };
 
+  const saveFileImage = async (e) => {
+    try {
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      };
+      const response = await Axios.post('/images', formData, config);
+      setImage(response.data.data.imageUrl);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleClick = () => {
+    imageInput.current.click();
+  };
+
   return (
     <BackGround>
       <Container>
@@ -44,12 +70,24 @@ const EditPost = () => {
         </TitleContainer>
         <ContentContainer>
           <ContentText>본문</ContentText>
+          <FileContainer>
+            <FileButton onClick={handleClick}>
+              <FileInput
+                type="file"
+                accept="image/jpg, image/jpeg, image/png"
+                ref={imageInput}
+                onChange={saveFileImage}
+              />
+              이미지 업로드
+            </FileButton>
+            {image && <FileImg src={image} alt="img" />}
+          </FileContainer>
           <ContentInput defaultValue={detail} placeholder="본문을 입력해주세요." onChange={onChangeContent} />
         </ContentContainer>
         <ButtonContainer>
           <SmallButton
             handleClick={() => {
-              AxiosEditPost({ postTitle, content, isbn, boardCategory, id });
+              AxiosEditPost({ postTitle, content, isbn, boardCategory, id, imageUrl: image });
               navigate(-1);
             }}
           >
@@ -137,4 +175,27 @@ const ButtonContainer = styled.div`
   align-items: center;
   justify-content: end;
   margin-right: 220px;
+`;
+
+const FileContainer = styled.div`
+  display: flex;
+  height: 120px;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const FileImg = styled.img`
+  width: 120px;
+  height: 120px;
+`;
+const FileButton = styled.button`
+  width: 150px;
+  height: 50px;
+  border: 1px solid ${({ theme }) => theme.colors.MINT50};
+  border-radius: 10px;
+  margin-right: 10px;
+`;
+
+const FileInput = styled.input`
+  display: none;
 `;

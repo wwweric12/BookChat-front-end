@@ -1,6 +1,6 @@
 import { Axios } from '../Axios';
 
-export const AxiosEditPost = async ({ isbn, id, postTitle, content, boardCategory }) => {
+export const AxiosEditPost = async ({ isbn, id, postTitle, content, boardCategory, imageUrl }) => {
   try {
     const response = await Axios.put(
       `/books/${isbn}/boards/details/${id}`,
@@ -8,6 +8,7 @@ export const AxiosEditPost = async ({ isbn, id, postTitle, content, boardCategor
         title: postTitle,
         content,
         boardCategory,
+        imageUrl,
       },
       {
         headers: {
